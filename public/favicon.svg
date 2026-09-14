@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="50%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#ec4899" />
+    </linearGradient>
+    <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#f1f5f9" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#bgGrad)" />
+  <!-- Sparkles Star -->
+  <path d="M256 100 L275 210 L385 229 L275 248 L256 358 L237 248 L127 229 L237 210 Z" fill="url(#iconGrad)" />
+  <path d="M370 120 L378 160 L418 168 L378 176 L370 216 L362 176 L322 168 L362 160 Z" fill="#fde047" opacity="0.9" />
+  <path d="M140 330 L146 360 L176 366 L146 372 L140 402 L134 372 L104 366 L134 360 Z" fill="#38bdf8" opacity="0.85" />
+</svg>

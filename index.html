@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hana — AI Voice & Sign Language Learning Companion</title>
+    <meta name="description" content="Learn American Sign Language (ASL) with Hana, a friendly AI companion avatar offering voice chat, 3D sign demonstrations, and real-time camera practice feedback." />
+    <meta name="theme-color" content="#070913" />
+
+    <!-- Favicon & PWA Manifest -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- OpenGraph Social Share Card -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Hana — AI Voice & Sign Language Learning Companion" />
+    <meta property="og:description" content="Master ASL signs with Hana! Interactive voice chat, gesture guides, and instant camera AI feedback." />
+    <meta property="og:image" content="/favicon.svg" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Hana — AI Voice & Sign Language Companion" />
+    <meta name="twitter:description" content="Master ASL signs with Hana! Interactive voice chat, gesture guides, and instant camera AI feedback." />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              heading: ['Outfit', 'sans-serif'],
+              sans: ['Inter', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                dark: '#070913',
+                surface: '#0e1122',
+                purple: '#a855f7',
+                gold: '#f59e0b',
+                pink: '#ec4899',
+                cyan: '#06b6d4',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    
+    <!-- MediaPipe CDN scripts fallback for camera hand tracking -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+  </head>
+  <body class="bg-[#070913] text-slate-100 font-sans antialiased min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
