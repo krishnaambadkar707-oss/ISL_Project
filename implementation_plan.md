@@ -1,13 +1,13 @@
-# Implementation Plan - "Hana" AI Voice & Sign Language Companion
+# Implementation Plan - "Hana" AI Voice & Indian Sign Language Companion
 
-An analysis of all provided documents ([PRD_AI_SignLanguage_Companion.md](file:///c:/Users/krish/OneDrive/Desktop/Agent/PRD_AI_SignLanguage_Companion.md), [This is a strong idea an AI friends.txt](file:///c:/Users/krish/OneDrive/Desktop/Agent/This%20is%20a%20strong%20idea%20an%20AI%20friends.txt), and [Edit prompt - OpenAI API.html](file:///c:/Users/krish/OneDrive/Desktop/Agent/Edit%20prompt%20-%20OpenAI%20API.html)) reveals a unified vision: building an engaging, emotionally warm AI companion named **Hana** that pairs an anime avatar with voice/text chat, ASL sign-language lessons with slow-motion 3D demonstrations, and real-time client-side camera gesture feedback.
+An analysis of all provided documents ([PRD_AI_SignLanguage_Companion.md](file:///c:/Users/krish/OneDrive/Desktop/Agent/PRD_AI_SignLanguage_Companion.md), [This is a strong idea an AI friends.txt](file:///c:/Users/krish/OneDrive/Desktop/Agent/This%20is%20a%20strong%20idea%20an%20AI%20friends.txt), and [Edit prompt - OpenAI API.html](file:///c:/Users/krish/OneDrive/Desktop/Agent/Edit%20prompt%20-%20OpenAI%20API.html)) reveals a unified vision: building an engaging, emotionally warm AI companion named **Hana** that pairs an anime avatar with voice/text chat, ISL sign-language lessons with slow-motion 3D demonstrations, and real-time client-side camera gesture feedback.
 
 ---
 
 ## Analysis & Synthesis of Source Documents
 
 From our detailed audit of all 3 documents, the core directives and non-negotiables are:
-1. **Target Language Focus**: Focus strictly on **American Sign Language (ASL)** for v1.
+1. **Target Language Focus**: Focus strictly on **Indian Sign Language (ISL)** for v1.
 2. **Avatar Companion**: Original anime-style companion ("Hana") with expressiveness, speech captions, lip-sync, customizable voice/appearance, and warm non-judgmental personality guardrails.
 3. **Validated Sign Demonstrations**: Accurate 3D procedural sign demonstrations with slow-motion (0.5x, 1x) playback and anatomical hand descriptions.
 4. **Camera Practice with MediaPipe**: Client-side hand tracking via MediaPipe. Real-time feedback on hand shape, palm orientation, and movement elevation with encouraging, constructive feedback ("Hand shape looks close! Try raising your palm slightly").

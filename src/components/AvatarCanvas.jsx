@@ -132,7 +132,7 @@ export default function AvatarCanvas({
     avatarGroup.add(mouth);
     mouthMeshRef.current = mouth;
 
-    // 6. Rigged 3D Hand & Arm for ASL Demonstration
+    // 6. Rigged 3D Hand & Arm for ISL Demonstration
     const rightArmGroup = new THREE.Group();
     rightArmGroup.position.set(0.35, 0.85, 0.35);
     rightArmGroup.rotation.set(0.1, -0.3, 0);

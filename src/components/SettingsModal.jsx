@@ -21,7 +21,7 @@ export default function SettingsModal({ isOpen, onClose, settings, onSaveSetting
       if (permission === 'granted') {
         setBrowserNotifications(true);
         if (onTriggerNotification) {
-          onTriggerNotification('Notifications Enabled! 🔔', 'You will receive daily ASL practice reminders from Hana!');
+          onTriggerNotification('Notifications Enabled! 🔔', 'You will receive daily ISL practice reminders from Hana!');
         }
       } else {
         alert('Browser notifications permission was not granted.');
@@ -35,11 +35,11 @@ export default function SettingsModal({ isOpen, onClose, settings, onSaveSetting
   const handleTestNotification = () => {
     soundFx.playSuccessChime();
     if (onTriggerNotification) {
-      onTriggerNotification('Hana Practice Reminder 🌸', 'Keep up your daily streak! Practice 2 new ASL signs today!');
+      onTriggerNotification('Hana Practice Reminder 🌸', 'Keep up your daily streak! Practice 2 new ISL signs today!');
     }
     if (browserNotifications && 'Notification' in window && Notification.permission === 'granted') {
-      new Notification('Hana ASL Companion 🌸', {
-        body: 'Time for your daily ASL practice! Keep your streak alive!',
+      new Notification('Hana ISL Companion 🌸', {
+        body: 'Time for your daily ISL practice! Keep your streak alive!',
         icon: '/favicon.ico'
       });
     }

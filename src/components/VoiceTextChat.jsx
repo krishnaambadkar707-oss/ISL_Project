@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Mic, MicOff, Send, Sparkles, User, MessageSquare, Lightbulb } from 'lucide-react';
-import { HANA_PERSONALITY, ASL_CURRICULUM } from '../data/aslCurriculum';
+import { HANA_PERSONALITY, ISL_CURRICULUM } from '../data/islCurriculum';
 
 export default function VoiceTextChat({ 
   currentSign, 
@@ -93,7 +93,7 @@ export default function VoiceTextChat({
 
     setTimeout(() => {
       const qLower = query.toLowerCase();
-      const matchedSign = ASL_CURRICULUM.find(s => 
+      const matchedSign = ISL_CURRICULUM.find(s => 
         qLower.includes(` ${s.sign.toLowerCase()} `) || 
         qLower.startsWith(`${s.sign.toLowerCase()} `) ||
         qLower.endsWith(` ${s.sign.toLowerCase()}`) ||
@@ -120,7 +120,7 @@ export default function VoiceTextChat({
 
   const handleChipClick = (chip) => {
     if (chip.signName && onSelectSign) {
-      const targetSign = ASL_CURRICULUM.find(s => s.sign.toUpperCase() === chip.signName.toUpperCase());
+      const targetSign = ISL_CURRICULUM.find(s => s.sign.toUpperCase() === chip.signName.toUpperCase());
       if (targetSign) {
         onSelectSign(targetSign);
       }
@@ -132,10 +132,10 @@ export default function VoiceTextChat({
     const q = userQuery.toLowerCase();
 
     if (q.includes('hello') || q.includes('hi') || q.includes('hey')) {
-      return `Hi ${memory?.name || 'friend'}! 🌸 I'm so happy to practice ASL with you! Which sign would you like to try right now?`;
+      return `Hi ${memory?.name || 'friend'}! 🌸 I'm so happy to practice ISL with you! Which sign would you like to try right now?`;
     }
     if (q.includes('who are you') || q.includes('who is hana')) {
-      return "I'm Hana, your friendly AI sign-language and voice companion! 🌸 I'm here to help you practice beginner ASL with 3D demonstrations, voice chat, and live camera feedback!";
+      return "I'm Hana, your friendly AI sign-language and voice companion! 🌸 I'm here to help you practice beginner ISL with 3D demonstrations, voice chat, and live camera feedback!";
     }
     if (q.includes('deaf') || q.includes('interpreter')) {
       return "I'm an AI companion here to make beginner practice low-pressure and fun! I always encourage learning directly from human Deaf educators and community events for full fluency! 💖";
@@ -147,7 +147,7 @@ export default function VoiceTextChat({
       return `Great question about '${signCtx.sign}' (${signCtx.title})! ${signCtx.description} Would you like to practice it in front of the camera now?`;
     }
 
-    return `That's wonderful! As your ASL tutor, I love practicing with you. Try selecting any letter (A-Z) or greeting below, or turn on your camera! 🌸`;
+    return `That's wonderful! As your ISL tutor, I love practicing with you. Try selecting any letter (A-Z) or greeting below, or turn on your camera! 🌸`;
   };
 
   return (
@@ -200,7 +200,7 @@ export default function VoiceTextChat({
               {msg.signImage && (
                 <div className="mt-2.5 p-2 bg-slate-950/80 rounded-xl border border-purple-500/30 flex items-center gap-3">
                   <div className="w-14 h-14 rounded-lg overflow-hidden bg-slate-900 border border-white/10 p-1 shrink-0">
-                    <img src={msg.signImage} alt="ASL Sign preview" className="w-full h-full object-contain rounded-md" />
+                    <img src={msg.signImage} alt="ISL Sign preview" className="w-full h-full object-contain rounded-md" />
                   </div>
                   <div>
                     <span className="text-[10px] uppercase font-mono text-purple-300 font-bold block">Sign Visual</span>

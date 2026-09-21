@@ -207,7 +207,7 @@ export default function CameraPractice({ currentSign, onMasteredSign, onFeedBack
             <div>
               <h3 className="text-base font-bold text-slate-100">Live Camera Practice</h3>
               <p className="text-xs text-slate-400 mt-1 max-w-xs leading-relaxed">
-                Position your hand in front of the webcam to get real-time feedback on your ASL signs from Hana!
+                Position your hand in front of the webcam to get real-time feedback on your ISL signs from Hana!
               </p>
             </div>
             <button onClick={startCamera} className="btn btn-gold mt-2">

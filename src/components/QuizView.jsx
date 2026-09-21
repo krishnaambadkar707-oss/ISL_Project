@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ASL_CURRICULUM } from '../data/aslCurriculum';
+import { ISL_CURRICULUM } from '../data/islCurriculum';
 import { HelpCircle, Award, CheckCircle2, XCircle, RotateCcw, Camera, Sparkles, Trophy } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { soundFx } from '../utils/soundEffects';
@@ -16,7 +16,7 @@ export default function QuizView({ onSelectSign, onQuizComplete }) {
 
   // Generate 5 random items for quiz
   const [quizItems, setQuizItems] = useState(() => {
-    const shuffled = [...ASL_CURRICULUM].sort(() => 0.5 - Math.random());
+    const shuffled = [...ISL_CURRICULUM].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, 5);
   });
 
@@ -24,7 +24,7 @@ export default function QuizView({ onSelectSign, onQuizComplete }) {
 
   const getOptions = (correctItem) => {
     const options = [correctItem];
-    const others = ASL_CURRICULUM.filter(s => s.id !== correctItem.id);
+    const others = ISL_CURRICULUM.filter(s => s.id !== correctItem.id);
     const shuffledOthers = [...others].sort(() => 0.5 - Math.random());
     options.push(...shuffledOthers.slice(0, 3));
     return options.sort(() => 0.5 - Math.random());
@@ -76,7 +76,7 @@ export default function QuizView({ onSelectSign, onQuizComplete }) {
   };
 
   const handleRestart = (newMode = quizMode) => {
-    const shuffled = [...ASL_CURRICULUM].sort(() => 0.5 - Math.random());
+    const shuffled = [...ISL_CURRICULUM].sort(() => 0.5 - Math.random());
     const newItems = shuffled.slice(0, 5);
     setQuizItems(newItems);
     setCurrentQuestionIndex(0);
@@ -97,7 +97,7 @@ export default function QuizView({ onSelectSign, onQuizComplete }) {
             <Trophy className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="text-base font-bold text-slate-100">Hana's ASL Knowledge Quiz</h2>
+            <h2 className="text-base font-bold text-slate-100">Hana's ISL Knowledge Quiz</h2>
             <p className="text-xs text-slate-400">Test your sign recognition & camera execution skills</p>
           </div>
         </div>
@@ -146,7 +146,7 @@ export default function QuizView({ onSelectSign, onQuizComplete }) {
                   <div className="relative w-36 h-36 sm:w-40 sm:h-40 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-xl bg-slate-950 p-2 shrink-0">
                     <img
                       src={currentItem.image}
-                      alt={`Target ASL Sign Gesture`}
+                      alt={`Target ISL Sign Gesture`}
                       className="w-full h-full object-contain rounded-xl"
                     />
                     <span className="absolute bottom-1 right-1 bg-slate-950/90 text-[9px] font-mono text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30">
@@ -244,7 +244,7 @@ export default function QuizView({ onSelectSign, onQuizComplete }) {
           </p>
 
           <p className="text-xs text-slate-400 mt-3 max-w-sm mx-auto leading-relaxed">
-            Hana is super proud of your dedication! You're making real progress in ASL fingerspelling and sign recognition!
+            Hana is super proud of your dedication! You're making real progress in ISL fingerspelling and sign recognition!
           </p>
 
           <div className="flex items-center justify-center gap-3 mt-6">

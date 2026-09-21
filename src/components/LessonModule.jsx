@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ASL_CATEGORIES, ASL_CURRICULUM } from '../data/aslCurriculum';
+import { ISL_CATEGORIES, ISL_CURRICULUM } from '../data/islCurriculum';
 import { BookOpen, CheckCircle2, Play, Search, Sparkles, Hash, Smile, Type, MessageSquare, Image as ImageIcon, X, ZoomIn } from 'lucide-react';
 import azChartImg from '../../A-Z.jpeg';
 
@@ -13,7 +13,7 @@ export default function LessonModule({
   const [isChartModalOpen, setIsChartModalOpen] = useState(false);
 
   // Filter signs by active category AND search query
-  const filteredSigns = ASL_CURRICULUM.filter(s => {
+  const filteredSigns = ISL_CURRICULUM.filter(s => {
     const matchesCategory = searchQuery.trim() ? true : s.category === activeCategory;
     const q = searchQuery.toLowerCase().trim();
     const matchesSearch = !q || 
@@ -42,22 +42,22 @@ export default function LessonModule({
         <div>
           <h2 className="text-xl font-black text-slate-100 flex items-center gap-2 font-heading">
             <BookOpen className="w-5 h-5 text-purple-400" />
-            ASL Learning Hub & Sign Finder
+            ISL Learning Hub & Sign Finder
           </h2>
           <p className="text-sm text-slate-400 mt-1">
             Explore 3D sign demonstrations, anatomical tips, and real-time camera practice
           </p>
         </div>
 
-        {/* Action Controls: View A-Z Chart + Search Input */}
+        {/* Action Controls: View A-Z Chart + Video Gallery + Search Input */}
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
           <button
             onClick={() => setIsChartModalOpen(true)}
             className="btn btn-gold text-xs py-2.5 px-4 shadow-md flex items-center gap-2 shrink-0"
-            title="Open Interactive ASL A-Z Reference Chart"
+            title="Open Interactive ISL A-Z Reference Chart"
           >
             <ImageIcon className="w-4 h-4" />
-            View ASL A-Z Chart
+            View ISL A-Z Chart
           </button>
 
           <div className="relative w-full sm:w-64">
@@ -84,7 +84,7 @@ export default function LessonModule({
       {/* Category Pills (Hidden when actively searching) */}
       {!searchQuery && (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {ASL_CATEGORIES.map((cat) => {
+          {ISL_CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat.id;
             return (
               <button
@@ -117,7 +117,7 @@ export default function LessonModule({
           Showing <strong className="text-purple-300 font-mono">{filteredSigns.length}</strong> {searchQuery ? `signs matching "${searchQuery}"` : 'signs in category'}
         </span>
         <span className="text-emerald-400 font-semibold font-mono">
-          {masteredSigns.length} / {ASL_CURRICULUM.length} Mastered
+          {masteredSigns.length} / {ISL_CURRICULUM.length} Mastered
         </span>
       </div>
 
@@ -147,7 +147,7 @@ export default function LessonModule({
                 <div className="flex flex-col items-center gap-1.5 my-auto w-full pt-1">
                   {item.image && (
                     <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden bg-slate-950 border border-purple-500/30 p-1 shadow-md flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
-                      <img src={item.image} alt={`ASL gesture for ${item.sign}`} className="w-full h-full object-contain rounded-lg" />
+                      <img src={item.image} alt={`ISL gesture for ${item.sign}`} className="w-full h-full object-contain rounded-lg" />
                     </div>
                   )}
                   <span className="text-base sm:text-lg font-black gradient-title font-heading truncate max-w-full">
@@ -165,7 +165,7 @@ export default function LessonModule({
         </div>
       ) : (
         <div className="text-center py-12 bg-slate-950/40 rounded-2xl border border-white/5">
-          <p className="text-sm text-slate-400">No ASL signs found matching "{searchQuery}".</p>
+          <p className="text-sm text-slate-400">No ISL signs found matching "{searchQuery}".</p>
           <button onClick={() => setSearchQuery('')} className="btn btn-secondary text-xs mt-3">
             Clear Search Filter
           </button>
@@ -186,14 +186,14 @@ export default function LessonModule({
             <div className="flex items-center gap-2">
               <ImageIcon className="w-5 h-5 text-amber-400" />
               <h2 className="text-lg font-extrabold text-slate-100 font-heading">
-                Complete ASL Alphabet (A–Z) Reference Chart
+                Complete ISL Alphabet (A–Z) Reference Chart
               </h2>
             </div>
 
             <div className="relative w-full rounded-2xl overflow-hidden border border-white/10 bg-slate-950 flex items-center justify-center p-2 group">
               <img
                 src={azChartImg}
-                alt="ASL Alphabet A-Z Reference Chart"
+                alt="ISL Alphabet A-Z Reference Chart"
                 className="w-full h-auto max-h-[70vh] object-contain rounded-xl transform transition-transform duration-300 group-hover:scale-105"
               />
             </div>

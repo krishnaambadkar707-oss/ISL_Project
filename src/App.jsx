@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ASL_CURRICULUM } from './data/aslCurriculum';
+import { ISL_CURRICULUM } from './data/islCurriculum';
 import AvatarDisplay from './components/AvatarDisplay';
 import CameraPractice from './components/CameraPractice';
 import VoiceTextChat from './components/VoiceTextChat';
@@ -35,12 +35,12 @@ export default function App() {
   const [studioStage, setStudioStage] = useState('2d-avatar');
   
   // Selected sign for demo & practice
-  const [currentSign, setCurrentSign] = useState(ASL_CURRICULUM[0]); // Starts with 'A'
+  const [currentSign, setCurrentSign] = useState(ISL_CURRICULUM[0]); // Starts with 'A'
   
   // Learner Memory & Progress State
   const [masteredSigns, setMasteredSigns] = useState(() => {
     const saved = localStorage.getItem('hana_mastered_signs');
-    return saved ? JSON.parse(saved) : ['asl-a', 'asl-b', 'asl-hello'];
+    return saved ? JSON.parse(saved) : ['isl-a', 'isl-b', 'isl-hello'];
   });
   
   const [streak, setStreak] = useState(() => {
@@ -138,7 +138,7 @@ export default function App() {
     if (!masteredSigns.includes(signId)) {
       const updated = [...masteredSigns, signId];
       setMasteredSigns(updated);
-      const signObj = ASL_CURRICULUM.find(s => s.id === signId);
+      const signObj = ISL_CURRICULUM.find(s => s.id === signId);
       showToast('Sign Mastered! 🎉', `Awesome job! You mastered the sign for "${signObj?.sign || signId}"!`, 'mastered');
     }
   };
@@ -176,7 +176,7 @@ export default function App() {
           </div>
           <div>
             <h1 className="text-2xl font-black gradient-title tracking-tight font-heading">Hana</h1>
-            <p className="text-xs text-slate-400 font-medium">AI Voice & ASL Learning Companion</p>
+            <p className="text-xs text-slate-400 font-medium">AI Voice & ISL Learning Companion</p>
           </div>
         </div>
 
@@ -237,7 +237,7 @@ export default function App() {
           <button
             onClick={() => setIsCertificateOpen(true)}
             className="p-2.5 rounded-xl bg-amber-500/20 border border-amber-400/40 text-amber-300 hover:bg-amber-500/30 transition-colors"
-            title="View ASL Certificate"
+            title="View ISL Certificate"
           >
             <Printer className="w-4.5 h-4.5" />
           </button>
@@ -257,7 +257,7 @@ export default function App() {
         <div>
           <span className="badge badge-purple text-xs mb-1">Welcome back, {settings.userName || 'Learner'}! 🌸</span>
           <h2 className="text-lg sm:text-xl font-bold text-slate-100 font-heading">
-            Ready to master ASL sign language today?
+            Ready to master ISL sign language today?
           </h2>
           <p className="text-xs sm:text-sm text-slate-300 mt-0.5">
             Watch Hana demonstrate hand gestures below or start camera practice!
@@ -360,7 +360,7 @@ export default function App() {
               if (score > quizHighScore) {
                 setQuizHighScore(score);
                 localStorage.setItem('hana_quiz_score', score.toString());
-                showToast('New High Score! 🏆', `Awesome! You scored ${score} pts on Hana's ASL Quiz!`, 'badge');
+                showToast('New High Score! 🏆', `Awesome! You scored ${score} pts on Hana's ISL Quiz!`, 'badge');
               }
             }}
           />
@@ -386,7 +386,7 @@ export default function App() {
           <span>Hana AI Sign Language Companion v1.0</span>
         </div>
         <p className="mt-1 sm:mt-0 text-[11px] text-slate-400">
-          Designed for beginner ASL practice. Always connect with human Deaf instructors for full fluency.
+          Designed for beginner ISL practice. Always connect with human Deaf instructors for full fluency.
         </p>
       </footer>
 
@@ -404,7 +404,7 @@ export default function App() {
         isOpen={isCertificateOpen}
         onClose={() => setIsCertificateOpen(false)}
         masteredCount={masteredSigns.length}
-        totalSigns={ASL_CURRICULUM.length}
+        totalSigns={ISL_CURRICULUM.length}
         userName={settings.userName}
       />
 

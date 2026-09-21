@@ -1,5 +1,5 @@
 {
-  "short_name": "Hana ASL",
+  "short_name": "Hana ISL",
   "name": "Hana — AI Voice & Sign Language Companion",
   "icons": [
     {
@@ -13,5 +13,5 @@
   "theme_color": "#070913",
   "display": "standalone",
   "orientation": "portrait",
-  "description": "Learn American Sign Language (ASL) with Hana, a friendly AI companion offering voice chat, sign demonstrations, and camera feedback."
+  "description": "Learn Indian Sign Language (ISL) with Hana, a friendly AI companion offering voice chat, sign demonstrations, and camera feedback."
 }

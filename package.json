@@ -2,7 +2,7 @@
   "name": "hana-ai-sign-language-companion",
   "private": true,
   "version": "1.0.0",
-  "description": "Learn American Sign Language (ASL) with Hana, an interactive AI companion featuring voice chat, 2D/3D gesture guides, and real-time camera practice.",
+  "description": "Learn Indian Sign Language (ISL) with Hana, an interactive AI companion featuring voice chat, 2D/3D gesture guides, and real-time camera practice.",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -12,6 +12,8 @@
     "postinstall": "chmod +x node_modules/.bin/* 2>/dev/null || true"
   },
   "keywords": [
+    "isl",
+    "indian-sign-language",
     "asl",
     "sign-language",
     "ai-companion",

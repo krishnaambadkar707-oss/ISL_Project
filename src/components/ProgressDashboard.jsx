@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flame, Award, BookOpen, Sparkles, CheckCircle2, Heart, Trophy, Printer, Type, Hash } from 'lucide-react';
-import { ASL_CURRICULUM, ASL_BADGES } from '../data/aslCurriculum';
+import { ISL_CURRICULUM, ISL_BADGES } from '../data/islCurriculum';
 
 export default function ProgressDashboard({ 
   streak = 3, 
@@ -9,7 +9,7 @@ export default function ProgressDashboard({
   userName = 'Learner',
   onOpenCertificate
 }) {
-  const totalSigns = ASL_CURRICULUM.length;
+  const totalSigns = ISL_CURRICULUM.length;
   const progressPercent = Math.round((masteredSigns.length / totalSigns) * 100);
 
   // Check which badges are unlocked
@@ -44,7 +44,7 @@ export default function ProgressDashboard({
             Learner Progress & Badges Dashboard
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Track daily practice streaks, unlock achievement badges, and print your official ASL certificate
+            Track daily practice streaks, unlock achievement badges, and print your official ISL certificate
           </p>
         </div>
         
@@ -56,7 +56,7 @@ export default function ProgressDashboard({
 
           <button onClick={onOpenCertificate} className="btn btn-gold text-xs">
             <Printer className="w-4 h-4" />
-            Claim ASL Certificate
+            Claim ISL Certificate
           </button>
         </div>
       </div>
@@ -98,7 +98,7 @@ export default function ProgressDashboard({
             <div className="text-xl font-extrabold text-slate-100 font-mono mt-0.5">
               Level 4
             </div>
-            <span className="text-[10px] text-pink-400 font-semibold">Kind ASL Companion</span>
+            <span className="text-[10px] text-pink-400 font-semibold">Kind ISL Companion</span>
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ export default function ProgressDashboard({
       {/* Main Progress Bar */}
       <div className="bg-slate-900/80 border border-white/10 p-4 rounded-2xl">
         <div className="flex items-center justify-between text-xs mb-2">
-          <span className="font-bold text-slate-200">Overall Beginner ASL Progress</span>
+          <span className="font-bold text-slate-200">Overall Beginner ISL Progress</span>
           <span className="font-mono font-bold text-purple-400">{progressPercent}%</span>
         </div>
         <div className="w-full bg-slate-950 rounded-full h-3.5 overflow-hidden p-0.5 border border-white/5">
@@ -124,7 +124,7 @@ export default function ProgressDashboard({
           Achievement Badges
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          {ASL_BADGES.map((badge) => {
+          {ISL_BADGES.map((badge) => {
             const unlocked = isBadgeUnlocked(badge);
             return (
               <div
@@ -158,9 +158,9 @@ export default function ProgressDashboard({
 
       {/* Mastered Signs Vocabulary Grid */}
       <div>
-        <h3 className="text-sm font-bold text-slate-200 mb-3">Mastered ASL Vocabulary ({masteredSigns.length})</h3>
+        <h3 className="text-sm font-bold text-slate-200 mb-3">Mastered ISL Vocabulary ({masteredSigns.length})</h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2">
-          {ASL_CURRICULUM.map((item) => {
+          {ISL_CURRICULUM.map((item) => {
             const isDone = masteredSigns.includes(item.id);
             return (
               <div

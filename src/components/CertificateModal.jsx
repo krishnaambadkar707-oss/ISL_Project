@@ -54,7 +54,7 @@ export default function CertificateModal({
           </span>
 
           <h1 className="text-2xl sm:text-3xl font-black gradient-title mt-1 mb-2 font-heading print:text-slate-900">
-            American Sign Language Foundations
+            Indian Sign Language Foundations
           </h1>
 
           <p className="text-xs text-slate-400 print:text-slate-600 max-w-md mx-auto leading-relaxed">
@@ -73,7 +73,7 @@ export default function CertificateModal({
           </div>
 
           <p className="text-xs text-slate-300 print:text-slate-700 max-w-lg mx-auto leading-relaxed">
-            has successfully practiced and mastered <span className="font-extrabold text-amber-400 print:text-amber-800">{masteredCount} ASL Signs</span> including Fingerspelling, Numbers, and Everyday Greetings with <span className="font-bold text-purple-400 print:text-purple-800">Hana AI Companion</span>.
+            has successfully practiced and mastered <span className="font-extrabold text-amber-400 print:text-amber-800">{masteredCount} ISL Signs</span> including Fingerspelling, Numbers, and Everyday Greetings with <span className="font-bold text-purple-400 print:text-purple-800">Hana AI Companion</span>.
           </p>
 
           {/* Stat Badges */}
