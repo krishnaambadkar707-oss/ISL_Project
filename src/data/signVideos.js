@@ -1,18 +1,30 @@
 // Mapping of ISL Video Demonstrations, Visual Thumbnails, and Detailed Descriptions
 
-import video1 from '../../images/video/WhatsApp Video 2026-09-20 at 6.12.42 PM (1).mp4';
-import video2 from '../../images/video/WhatsApp Video 2026-09-20 at 6.12.42 PM (2).mp4';
-import video3 from '../../images/video/WhatsApp Video 2026-09-20 at 6.12.42 PM.mp4';
-import video4 from '../../images/video/WhatsApp Video 2026-09-20 at 6.12.43 PM (1).mp4';
-import video5 from '../../images/video/WhatsApp Video 2026-09-20 at 6.12.43 PM.mp4';
-import video6 from '../../images/video/WhatsApp Video 2026-09-20 at 6.12.44 PM (1).mp4';
-import video7 from '../../images/video/WhatsApp Video 2026-09-20 at 6.12.44 PM (2).mp4';
-import video8 from '../../images/video/WhatsApp Video 2026-09-20 at 6.12.44 PM.mp4';
-import video9 from '../../images/video/WhatsApp Video 2026-09-20 at 6.12.45 PM (1).mp4';
-import video10 from '../../images/video/WhatsApp Video 2026-09-20 at 6.12.45 PM.mp4';
-import video11 from '../../images/video/WhatsApp Video 2026-09-20 at 6.12.46 PM (1).mp4';
-import video12 from '../../images/video/WhatsApp Video 2026-09-20 at 6.12.46 PM.mp4';
-import video13 from '../../images/video/WhatsApp Video 2026-09-20 at 6.12.47 PM.mp4';
+import video1 from '../../images/videos/VID_20260928_212324_815.mp4';
+import video2 from '../../images/videos/VID_20260928_212409_840.mp4';
+import video3 from '../../images/videos/VID_20260928_212450_670.mp4';
+import video4 from '../../images/videos/VID_20260928_212610_615.mp4';
+import video5 from '../../images/videos/VID_20260928_212731_224.mp4';
+import video6 from '../../images/videos/VID_20260930_055504_430.mp4';
+import video7 from '../../images/videos/VID_20260930_055537_316.mp4';
+import video8 from '../../images/videos/VID_20260930_055606_256.mp4';
+import video9 from '../../images/videos/VID_20260930_055714_416.mp4';
+import video10 from '../../images/videos/VID_20260930_055745_160.mp4';
+import video11 from '../../images/videos/VID_20260930_055834_743.mp4';
+import video12 from '../../images/videos/VID_20260930_055952_206.mp4';
+import video13 from '../../images/videos/VID_20260930_060256_778.mp4';
+import video14 from '../../images/videos/VID_20260930_060338_246.mp4';
+import video15 from '../../images/videos/VID_20260930_060408_663.mp4';
+import video16 from '../../images/videos/VID_20260930_060544_104.mp4';
+import video17 from '../../images/videos/VID_20260930_060619_440.mp4';
+import video18 from '../../images/videos/VID_20260930_060656_120.mp4';
+import video19 from '../../images/videos/VID_20260930_060721_884.mp4';
+import video20 from '../../images/videos/VID_20260930_060843_885.mp4';
+import video21 from '../../images/videos/VID_20260930_060925_376.mp4';
+import video22 from '../../images/videos/VID_20260930_060954_398.mp4';
+import video23 from '../../images/videos/VID_20260930_061021_220.mp4';
+import video24 from '../../images/videos/VID_20260930_061107_618.mp4';
+import video25 from '../../images/videos/VID_20260930_061147_961.mp4';
 import defaultGrokVideo from '../../grok-video-39aa06bf-988c-4816-b306-c3c2f1b2f8e3.mp4';
 
 import { SIGN_IMAGES } from './signImages';
@@ -160,6 +172,28 @@ export const ISL_VIDEOS_LIST = [
     image: SIGN_IMAGES['PLEASED TO KNOW'],
     shortHint: 'Wipe palm + Temple tap',
     description: 'Demonstrates smooth wiping motion across palm (PLEASED) transitioning to a gentle temple tap (KNOW).'
+  },
+  { 
+    id: 'video-14', 
+    title: 'ISL DEMONSTRATION 14', 
+    videoText: 'ISL PRACTICE 14',
+    src: video14, 
+    category: 'phrases', 
+    sign: 'ISL DEMO 14', 
+    image: SIGN_IMAGES['A'],
+    shortHint: 'General ISL movement guide',
+    description: 'Demonstrates conversational sign movement.'
+  },
+  { 
+    id: 'video-15', 
+    title: 'ISL DEMONSTRATION 15', 
+    videoText: 'ISL PRACTICE 15',
+    src: video15, 
+    category: 'phrases', 
+    sign: 'ISL DEMO 15', 
+    image: SIGN_IMAGES['B'],
+    shortHint: 'General ISL movement guide',
+    description: 'Demonstrates conversational sign movement.'
   }
 ];
 
