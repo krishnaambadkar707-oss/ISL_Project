@@ -324,7 +324,7 @@ export default function VoiceTextChat({
           <button
             key={idx}
             onClick={() => handleChipClick(chip)}
-            className="px-3 py-1 bg-white/[0.05] border border-white/12 hover:border-purple-500/50 hover:bg-white/[0.10] text-slate-300 hover:text-white rounded-full text-xs font-medium whitespace-nowrap transition-colors backdrop-blur-sm"
+            className="px-3.5 py-1.5 bg-white/[0.05] border border-white/15 hover:border-purple-400 hover:bg-purple-950/40 hover:text-amber-300 text-slate-200 rounded-full text-xs font-semibold whitespace-nowrap transition-all backdrop-blur-sm shadow-sm"
           >
             {chip.label}
           </button>

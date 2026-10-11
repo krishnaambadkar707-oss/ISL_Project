@@ -10,6 +10,7 @@ import SettingsModal from './components/SettingsModal';
 import CertificateModal from './components/CertificateModal';
 import ToastNotification from './components/ToastNotification';
 import ProjectBackground from './components/ProjectBackground';
+import LandingPage from './components/LandingPage';
 import { soundFx } from './utils/soundEffects';
 
 import { 
@@ -32,12 +33,13 @@ import {
   Volume2,
   VolumeX,
   Target,
-  Zap
+  Zap,
+  Home
 } from 'lucide-react';
 
 export default function App() {
-  // Navigation tab state: 'learn' | 'quiz' | 'progress'
-  const [activeTab, setActiveTab] = useState('learn');
+  // Navigation tab state: 'landing' | 'learn' | 'quiz' | 'progress'
+  const [activeTab, setActiveTab] = useState('landing');
 
   // Studio Stage Tab state inside 'learn': '2d-avatar' | 'camera' | 'chat'
   const [studioStage, setStudioStage] = useState('2d-avatar');
@@ -198,26 +200,30 @@ export default function App() {
           
           {/* Brand Logo & Companion Identity */}
           <div className="flex items-center justify-between w-full md:w-auto">
-            <div className="flex items-center gap-3.5">
-              <div className="relative group">
-                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-amber-500 via-purple-600 to-pink-500 blur-md opacity-70 group-hover:opacity-100 transition duration-500" />
-                <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-400 via-purple-600 to-pink-600 flex items-center justify-center text-slate-950 font-black shadow-lg">
+            <div 
+              onClick={() => handleTabChange('landing')}
+              className="flex items-center gap-3.5 cursor-pointer group select-none"
+              title="Return to Hana Home / Explore"
+            >
+              <div className="relative">
+                <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-amber-400 via-pink-500 to-purple-600 blur-md opacity-80 group-hover:opacity-100 transition duration-500" />
+                <div className="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-amber-400 via-pink-500 to-purple-600 flex items-center justify-center text-slate-950 font-black shadow-lg group-hover:scale-105 transition-transform">
                   <Sparkles className="w-6 h-6 text-slate-950 animate-spin-slow" />
                 </div>
               </div>
 
               <div>
                 <div className="flex items-center gap-2">
-                  <h1 className="text-2xl font-black gradient-title tracking-tight font-heading">
+                  <h1 className="text-2xl font-black gradient-rainbow tracking-tight font-heading">
                     Hana
                   </h1>
-                  <span className="badge badge-purple text-[10px] py-0.5 px-2">ISL AI</span>
-                  <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+                  <span className="badge badge-rainbow text-[10px] py-0.5 px-2">ISL AI</span>
+                  <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/20 border border-emerald-500/40 text-emerald-300">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                     Online
                   </span>
                 </div>
-                <p className="text-[11px] text-slate-400 font-medium">
+                <p className="text-[11px] text-slate-300 font-semibold group-hover:text-amber-300 transition-colors">
                   Indian Sign Language (ISL) Interactive Companion
                 </p>
               </div>
@@ -240,7 +246,19 @@ export default function App() {
           </div>
 
           {/* Center Navigation Segmented Tabs */}
-          <nav className="flex items-center gap-1.5 bg-white/[0.05] p-1.5 rounded-2xl border border-white/15 backdrop-blur-md shadow-inner w-full md:w-auto justify-center">
+          <nav className="flex items-center gap-1.5 bg-white/[0.05] p-1.5 rounded-2xl border border-white/15 backdrop-blur-md shadow-inner w-full md:w-auto justify-center overflow-x-auto">
+            <button
+              onClick={() => handleTabChange('landing')}
+              className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                activeTab === 'landing'
+                  ? 'bg-gradient-to-r from-amber-500 via-pink-500 to-purple-600 text-white shadow-lg shadow-purple-950/60 font-extrabold'
+                  : 'text-slate-400 hover:text-slate-200 hover:bg-white/5'
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-amber-300" />
+              <span>Explore</span>
+            </button>
+
             <button
               onClick={() => handleTabChange('learn')}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
@@ -250,7 +268,7 @@ export default function App() {
               }`}
             >
               <BookOpen className="w-4 h-4" />
-              <span>Learn & Practice</span>
+              <span>Learn Studio</span>
             </button>
 
             <button
@@ -329,65 +347,93 @@ export default function App() {
           </div>
         </header>
 
-        {/* Dynamic Studio Dashboard Hero Banner */}
-        <section className="glass-card p-5 sm:p-6 border border-white/20 shadow-2xl relative overflow-hidden">
-          
-          {/* Subtle Ambient Radial Highlight */}
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
-          
-          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
+        {/* Dynamic Studio Dashboard Hero Banner (Only shown in studio/quiz/dashboard tabs) */}
+        {activeTab !== 'landing' && (
+          <section className="glass-card p-5 sm:p-6 border border-white/20 shadow-2xl relative overflow-hidden">
             
-            {/* Welcome & Learning Headline */}
-            <div className="space-y-1.5 max-w-xl">
-              <div className="flex items-center gap-2">
-                <span className="badge badge-purple text-xs font-bold">
-                  Namaste, {settings.userName || 'Learner'}! 🌸
-                </span>
-                <span className="text-[11px] text-amber-400 font-semibold font-mono">
-                  Target: Sign "{currentSign?.sign || 'A'}"
-                </span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-black text-slate-100 font-heading tracking-tight">
-                Master Indian Sign Language with Hana
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
-                Practice fingerspelling, 100% photographic gestures, two-handed camera recognition, and AI voice dialogue.
-              </p>
-            </div>
-
-            {/* Curriculum Progress Meter & Quick Action */}
-            <div className="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-white/[0.05] p-3.5 rounded-2xl border border-white/15 backdrop-blur-md shrink-0">
-              <div className="space-y-1 sm:w-44">
-                <div className="flex items-center justify-between text-xs font-bold text-slate-300">
-                  <span className="flex items-center gap-1.5">
-                    <Award className="w-3.5 h-3.5 text-amber-400" />
-                    Mastery
+            {/* Subtle Ambient Radial Highlight */}
+            <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+            
+            <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5">
+              
+              {/* Welcome & Learning Headline */}
+              <div className="space-y-1.5 max-w-xl">
+                <div className="flex items-center gap-2">
+                  <span className="badge badge-rainbow text-xs font-bold">
+                    Namaste, {settings.userName || 'Learner'}! 🌸
                   </span>
-                  <span className="text-purple-300 font-mono">{progressPercent}%</span>
+                  <span className="text-[11px] text-amber-400 font-semibold font-mono">
+                    Target: Sign "{currentSign?.sign || 'A'}"
+                  </span>
                 </div>
-                <div className="w-full h-2.5 bg-slate-800/80 rounded-full overflow-hidden p-0.5 border border-white/10">
-                  <div
-                    className="h-full bg-gradient-to-r from-amber-400 via-purple-500 to-pink-500 rounded-full transition-all duration-700 shadow-md"
-                    style={{ width: `${progressPercent}%` }}
-                  />
-                </div>
-                <div className="text-[10px] text-slate-400 text-right">
-                  {masteredSigns.length} / {ISL_CURRICULUM.length} Signs Mastered
-                </div>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-100 font-heading tracking-tight">
+                  Master Indian Sign Language with Hana
+                </h2>
+                <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-medium">
+                  Practice fingerspelling, 100% photographic gestures, two-handed camera recognition, and AI voice dialogue.
+                </p>
               </div>
 
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => handleTabChange('quiz')}
-                  className="btn btn-gold text-xs py-2 px-3.5 shadow-md flex items-center gap-1.5 shrink-0"
-                >
-                  <Zap className="w-3.5 h-3.5 fill-slate-950" />
-                  Quick Quiz
-                </button>
+              {/* Curriculum Progress Meter & Quick Action */}
+              <div className="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-white/[0.05] p-3.5 rounded-2xl border border-white/15 backdrop-blur-md shrink-0">
+                <div className="space-y-1 sm:w-44">
+                  <div className="flex items-center justify-between text-xs font-bold text-slate-300">
+                    <span className="flex items-center gap-1.5">
+                      <Award className="w-3.5 h-3.5 text-amber-400" />
+                      Mastery
+                    </span>
+                    <span className="text-purple-300 font-mono">{progressPercent}%</span>
+                  </div>
+                  <div className="w-full h-2.5 bg-slate-800/80 rounded-full overflow-hidden p-0.5 border border-white/10">
+                    <div
+                      className="h-full bg-gradient-to-r from-amber-400 via-purple-500 to-pink-500 rounded-full transition-all duration-700 shadow-md"
+                      style={{ width: `${progressPercent}%` }}
+                    />
+                  </div>
+                  <div className="text-[10px] text-slate-400 text-right">
+                    {masteredSigns.length} / {ISL_CURRICULUM.length} Signs Mastered
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => handleTabChange('quiz')}
+                    className="btn btn-gold text-xs py-2 px-3.5 shadow-md flex items-center gap-1.5 shrink-0"
+                  >
+                    <Zap className="w-3.5 h-3.5 fill-slate-950" />
+                    Quick Quiz
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
+
+        {/* Tab 0: Comprehensive Landing Page & Interactive Showcase */}
+        {activeTab === 'landing' && (
+          <LandingPage
+            onStartLearning={() => {
+              handleTabChange('learn');
+              setStudioStage('2d-avatar');
+            }}
+            onStartCamera={() => {
+              handleTabChange('learn');
+              setStudioStage('camera');
+            }}
+            onStartQuiz={() => {
+              handleTabChange('quiz');
+            }}
+            onStartChat={() => {
+              handleTabChange('learn');
+              setStudioStage('chat');
+            }}
+            onSelectSign={(signItem) => {
+              handleSelectSign(signItem);
+            }}
+            masteredCount={masteredSigns.length}
+            streak={streak}
+          />
+        )}
 
         {/* Tab 1: Learn & Practice */}
         {activeTab === 'learn' && (

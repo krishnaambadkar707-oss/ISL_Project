@@ -281,7 +281,25 @@ export default function ProjectBackground({ theme = 'dark' }) {
         <div
           className="absolute top-1/2 right-1/4 w-[550px] h-[550px] rounded-full blur-[110px] opacity-75"
           style={{
-            background: 'radial-gradient(circle, rgba(236, 72, 153, 0.30) 0%, transparent 65%)'
+            background: 'radial-gradient(circle, rgba(236, 72, 153, 0.32) 0%, transparent 65%)'
+          }}
+        />
+
+        {/* Emerald & Mint Glow Orb (Bottom-Right) */}
+        <div
+          className="absolute -bottom-20 -right-20 w-[620px] h-[620px] rounded-full blur-[100px] opacity-75"
+          style={{
+            background: isBright
+              ? 'radial-gradient(circle, rgba(16, 185, 129, 0.35) 0%, transparent 65%)'
+              : 'radial-gradient(circle, rgba(16, 185, 129, 0.32) 0%, rgba(5, 150, 105, 0.18) 45%, transparent 70%)'
+          }}
+        />
+
+        {/* Sunset Coral & Tangerine Glow Orb (Center-Left) */}
+        <div
+          className="absolute top-1/2 -left-28 w-[580px] h-[580px] rounded-full blur-[105px] opacity-70"
+          style={{
+            background: 'radial-gradient(circle, rgba(255, 107, 107, 0.32) 0%, rgba(249, 115, 22, 0.18) 50%, transparent 70%)'
           }}
         />
       </div>

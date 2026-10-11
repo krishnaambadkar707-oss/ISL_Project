@@ -118,20 +118,35 @@ export default function LessonModule({
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
           {ISL_CATEGORIES.map((cat) => {
             const isActive = activeCategory === cat.id;
+            const categoryGradients = {
+              alphabet: 'bg-gradient-to-r from-purple-600/35 via-purple-600/25 to-pink-600/30 border-purple-400 text-white shadow-xl shadow-purple-950/50 scale-[1.01]',
+              numbers: 'bg-gradient-to-r from-cyan-600/35 via-cyan-600/25 to-blue-600/30 border-cyan-400 text-white shadow-xl shadow-cyan-950/50 scale-[1.01]',
+              greetings: 'bg-gradient-to-r from-amber-600/35 via-orange-600/25 to-amber-600/30 border-amber-400 text-white shadow-xl shadow-amber-950/50 scale-[1.01]',
+              phrases: 'bg-gradient-to-r from-emerald-600/35 via-teal-600/25 to-emerald-600/30 border-emerald-400 text-white shadow-xl shadow-emerald-950/50 scale-[1.01]'
+            };
+            const iconGradients = {
+              alphabet: 'bg-gradient-to-tr from-purple-500 to-pink-500 text-white shadow-md font-bold',
+              numbers: 'bg-gradient-to-tr from-cyan-400 to-blue-500 text-slate-950 shadow-md font-bold',
+              greetings: 'bg-gradient-to-tr from-amber-400 to-orange-500 text-slate-950 shadow-md font-bold',
+              phrases: 'bg-gradient-to-tr from-emerald-400 to-teal-500 text-slate-950 shadow-md font-bold'
+            };
+            const activeStyle = categoryGradients[cat.id] || categoryGradients.alphabet;
+            const activeIcon = iconGradients[cat.id] || iconGradients.alphabet;
+
             return (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
                 className={`p-3.5 sm:p-4 rounded-2xl border text-left transition-all duration-300 flex items-center justify-between group backdrop-blur-md ${
                   isActive
-                    ? 'bg-gradient-to-r from-purple-600/35 via-purple-600/25 to-pink-600/30 border-purple-400 text-white shadow-xl shadow-purple-950/50 scale-[1.01]'
+                    ? activeStyle
                     : 'bg-white/[0.04] border-white/12 text-slate-300 hover:bg-white/[0.08] hover:border-white/25 hover:text-white'
                 }`}
               >
                 <div className="flex items-center gap-3">
                   <div className={`p-2 rounded-xl transition-colors ${
                     isActive 
-                      ? 'bg-gradient-to-tr from-amber-400 to-purple-500 text-slate-950 shadow-md font-bold' 
+                      ? activeIcon 
                       : 'bg-white/[0.08] text-slate-400 group-hover:text-amber-400'
                   }`}>
                     {getCategoryIcon(cat.icon)}

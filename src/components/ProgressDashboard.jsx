@@ -63,42 +63,42 @@ export default function ProgressDashboard({
 
       {/* Key Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-white/[0.04] backdrop-blur-md border border-white/12 p-4 rounded-2xl flex items-center gap-3.5">
-          <div className="p-3 bg-purple-500/20 text-purple-400 rounded-xl">
+        <div className="bg-gradient-to-br from-purple-500/15 via-white/[0.04] to-purple-950/20 backdrop-blur-md border border-purple-500/30 p-4 rounded-2xl flex items-center gap-3.5 shadow-lg">
+          <div className="p-3 bg-purple-500/25 text-purple-300 rounded-xl shadow-inner">
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-xs text-slate-400 font-medium">Curriculum Mastery</span>
-            <div className="text-xl font-extrabold text-slate-100 font-mono mt-0.5">
+            <span className="text-xs text-slate-300 font-medium">Curriculum Mastery</span>
+            <div className="text-xl font-extrabold text-white font-mono mt-0.5">
               {masteredSigns.length} / {totalSigns}
             </div>
-            <span className="text-[10px] text-purple-400 font-semibold">{progressPercent}% Completed</span>
+            <span className="text-[10px] text-purple-300 font-semibold">{progressPercent}% Completed</span>
           </div>
         </div>
 
-        <div className="bg-white/[0.04] backdrop-blur-md border border-white/12 p-4 rounded-2xl flex items-center gap-3.5">
-          <div className="p-3 bg-cyan-500/20 text-cyan-400 rounded-xl">
+        <div className="bg-gradient-to-br from-cyan-500/15 via-white/[0.04] to-blue-950/20 backdrop-blur-md border border-cyan-500/30 p-4 rounded-2xl flex items-center gap-3.5 shadow-lg">
+          <div className="p-3 bg-cyan-500/25 text-cyan-300 rounded-xl shadow-inner">
             <Award className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-xs text-slate-400 font-medium">Quiz High Score</span>
-            <div className="text-xl font-extrabold text-slate-100 font-mono mt-0.5">
+            <span className="text-xs text-slate-300 font-medium">Quiz High Score</span>
+            <div className="text-xl font-extrabold text-white font-mono mt-0.5">
               {quizHighScore} pts
             </div>
-            <span className="text-[10px] text-cyan-400 font-semibold">Mastery Achieved</span>
+            <span className="text-[10px] text-cyan-300 font-semibold">Mastery Achieved</span>
           </div>
         </div>
 
-        <div className="bg-white/[0.04] backdrop-blur-md border border-white/12 p-4 rounded-2xl flex items-center gap-3.5">
-          <div className="p-3 bg-pink-500/20 text-pink-400 rounded-xl">
+        <div className="bg-gradient-to-br from-pink-500/15 via-white/[0.04] to-rose-950/20 backdrop-blur-md border border-pink-500/30 p-4 rounded-2xl flex items-center gap-3.5 shadow-lg">
+          <div className="p-3 bg-pink-500/25 text-pink-300 rounded-xl shadow-inner">
             <Heart className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-xs text-slate-400 font-medium">Hana Friendship Level</span>
-            <div className="text-xl font-extrabold text-slate-100 font-mono mt-0.5">
+            <span className="text-xs text-slate-300 font-medium">Hana Friendship Level</span>
+            <div className="text-xl font-extrabold text-white font-mono mt-0.5">
               Level 4
             </div>
-            <span className="text-[10px] text-pink-400 font-semibold">Kind ISL Companion</span>
+            <span className="text-[10px] text-pink-300 font-semibold">Kind ISL Companion</span>
           </div>
         </div>
       </div>
