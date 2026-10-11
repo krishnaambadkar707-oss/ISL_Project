@@ -96,9 +96,13 @@ export default function App() {
     if (settings.theme === 'bright') {
       document.body.classList.add('bright-theme');
       document.documentElement.setAttribute('data-theme', 'bright');
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('bright');
     } else {
       document.body.classList.remove('bright-theme');
       document.documentElement.setAttribute('data-theme', 'dark');
+      document.documentElement.classList.remove('bright');
+      document.documentElement.classList.add('dark');
     }
   }, [settings]);
 

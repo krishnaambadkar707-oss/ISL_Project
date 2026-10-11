@@ -408,7 +408,10 @@ export default function ProjectBackground({ theme = 'dark' }) {
         </div>
 
         {/* Prominent ISL Branding Typography Watermark (Bottom Right - High Visibility) */}
-        <div className="absolute bottom-16 right-8 opacity-[0.30] text-right font-black font-heading select-none leading-none">
+        <div 
+          className="absolute bottom-16 right-8 opacity-[0.25] text-right font-black font-heading select-none leading-none pointer-events-none"
+          style={{ filter: isBright ? 'invert(0.85)' : 'none' }}
+        >
           <div className="text-[150px] tracking-tighter text-purple-400 font-extrabold drop-shadow-2xl">
             ISL
           </div>
