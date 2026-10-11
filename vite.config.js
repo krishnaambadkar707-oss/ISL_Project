@@ -16,6 +16,9 @@ try {
   if (!fs.existsSync(publicSignsDir)) {
     fs.mkdirSync(publicSignsDir, { recursive: true });
   }
+  if (!fs.existsSync(imagesDir)) {
+    fs.mkdirSync(imagesDir, { recursive: true });
+  }
 
   if (fs.existsSync(brainDir)) {
     const files = fs.readdirSync(brainDir);
@@ -59,6 +62,11 @@ try {
         } else if (f.startsWith('isl_number_2_')) {
           fs.copyFileSync(srcFile, path.join(publicSignsDir, '2.png'));
           fs.copyFileSync(srcFile, path.join(imagesDir, '2.png'));
+        }
+      }
+    }
+  }
+
   // Read exact dimensions of master sheets
   function getJpegDimensions(filePath) {
     if (!fs.existsSync(filePath)) return null;
@@ -86,7 +94,11 @@ try {
     gesture: gestureDim || { width: 853, height: 1280 },
     az: azDim || { width: 853, height: 1280 }
   };
-  fs.writeFileSync(path.resolve(__dirname, 'src/data/sheetDimensions.json'), JSON.stringify(dimData, null, 2));
+  const sheetDimDir = path.resolve(__dirname, 'src/data');
+  if (!fs.existsSync(sheetDimDir)) {
+    fs.mkdirSync(sheetDimDir, { recursive: true });
+  }
+  fs.writeFileSync(path.join(sheetDimDir, 'sheetDimensions.json'), JSON.stringify(dimData, null, 2));
 
   // Copy master sheets to public/ for web access
   if (fs.existsSync(path.join(__dirname, 'gesture.jpeg'))) {
