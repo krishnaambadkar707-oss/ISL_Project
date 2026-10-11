@@ -135,7 +135,7 @@ export default function Hana2DGestureAvatar({
 
         {/* View Mode Selector Tabs: Sign Image Guide | Motion Video | Dual View */}
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-1 bg-slate-900/90 p-1 rounded-full border border-white/10 shadow-inner">
+          <div className="flex items-center gap-1 bg-white/[0.05] p-1 rounded-full border border-white/15 backdrop-blur-md shadow-inner">
             <button
               onClick={() => {
                 setDemonstratorMode('image-gesture');
@@ -215,7 +215,7 @@ export default function Hana2DGestureAvatar({
         </div>
 
         {/* Interactive Demonstrator Area */}
-        <div className="flex-1 w-full bg-slate-950/80 border border-purple-500/25 p-4 rounded-2xl flex flex-col justify-between backdrop-blur-md shadow-inner min-h-[320px]">
+        <div className="flex-1 w-full bg-white/[0.04] border border-white/18 p-4 rounded-2xl flex flex-col justify-between backdrop-blur-md shadow-inner min-h-[320px]">
           
           {/* Header Bar */}
           <div className="flex items-center justify-between border-b border-white/10 pb-2.5 mb-3">
@@ -269,7 +269,7 @@ export default function Hana2DGestureAvatar({
           {demonstratorMode === 'image-gesture' && (
             <div className="flex flex-col sm:flex-row items-center gap-4 my-auto">
               <div className="relative group shrink-0">
-                <div className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden border-2 border-amber-500/40 shadow-2xl bg-slate-900 flex items-center justify-center p-2">
+                <div className="relative w-48 h-48 sm:w-56 sm:h-56 rounded-2xl overflow-hidden border-2 border-amber-500/40 shadow-2xl bg-white/[0.04] backdrop-blur-md flex items-center justify-center p-2">
                   <img
                     src={activeGestureImage}
                     alt={`ISL Sign Gesture for ${currentSign?.sign}`}
@@ -278,7 +278,7 @@ export default function Hana2DGestureAvatar({
                   />
 
                   {/* Zoom Overlay */}
-                  <div className="absolute top-2 right-2 flex items-center gap-1 bg-slate-950/80 p-1 rounded-lg border border-white/10 opacity-80 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute top-2 right-2 flex items-center gap-1 bg-white/[0.08] backdrop-blur-md p-1 rounded-lg border border-white/15 opacity-80 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => setZoomLevel(prev => Math.min(prev + 0.3, 2.5))}
                       className="p-1 text-slate-300 hover:text-white rounded hover:bg-white/10"
@@ -299,7 +299,7 @@ export default function Hana2DGestureAvatar({
 
               {/* Instructions */}
               <div className="flex-1 space-y-2 text-left">
-                <div className="bg-slate-900/90 border border-white/10 p-3 rounded-xl">
+                <div className="bg-white/[0.04] backdrop-blur-md border border-white/12 p-3 rounded-xl">
                   <h4 className="text-xs font-bold text-amber-300 mb-1 flex items-center gap-1.5 font-heading">
                     <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                     How to practice Sign "{currentSign?.sign}":
@@ -309,7 +309,7 @@ export default function Hana2DGestureAvatar({
                   </p>
                 </div>
 
-                <div className="bg-purple-950/40 border border-purple-500/30 p-2.5 rounded-xl flex items-start gap-2">
+                <div className="bg-purple-950/30 backdrop-blur-md border border-purple-500/30 p-2.5 rounded-xl flex items-start gap-2">
                   <Info className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
                   <p className="text-xs text-purple-200 leading-snug font-medium">
                     <strong className="text-amber-300">Pro Tip: </strong>

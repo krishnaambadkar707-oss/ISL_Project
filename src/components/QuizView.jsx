@@ -111,7 +111,7 @@ export default function QuizView({ onSelectSign, onQuizComplete }) {
         </div>
 
         {/* Mode Selector Buttons */}
-        <div className="flex items-center gap-1 bg-slate-900/80 p-1 rounded-xl border border-white/10">
+        <div className="flex items-center gap-1 bg-white/[0.05] p-1 rounded-xl border border-white/15 backdrop-blur-md">
           <button
             onClick={() => handleRestart('multiple-choice')}
             className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
@@ -149,17 +149,17 @@ export default function QuizView({ onSelectSign, onQuizComplete }) {
           {quizMode === 'multiple-choice' ? (
             /* Mode 1: Multiple Choice Question */
             <div>
-              <div className="bg-slate-900/80 border border-white/10 p-5 rounded-2xl text-center mb-6 flex flex-col sm:flex-row items-center justify-around gap-4">
+              <div className="bg-white/[0.04] backdrop-blur-md border border-white/15 p-5 rounded-2xl text-center mb-6 flex flex-col sm:flex-row items-center justify-around gap-4">
                 {(() => {
                   const qImg = getSignImage(currentItem);
                   return qImg ? (
-                    <div className="relative w-36 h-36 sm:w-40 sm:h-40 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-xl bg-slate-950 p-2 shrink-0">
+                    <div className="relative w-36 h-36 sm:w-40 sm:h-40 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-xl bg-white/[0.05] p-2 shrink-0 backdrop-blur-sm">
                       <img
                         src={qImg}
                         alt={`Target ISL Sign Gesture`}
                         className="w-full h-full object-contain rounded-xl"
                       />
-                      <span className="absolute bottom-1 right-1 bg-slate-950/90 text-[9px] font-mono text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30">
+                      <span className="absolute bottom-1 right-1 bg-slate-950/80 text-[9px] font-mono text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30 backdrop-blur-sm">
                         Sign Image
                       </span>
                     </div>
@@ -180,7 +180,7 @@ export default function QuizView({ onSelectSign, onQuizComplete }) {
                   const isSelected = selectedOption?.id === opt.id;
                   const optImg = getSignImage(opt);
 
-                  let btnStyle = 'bg-slate-900/60 border-white/10 hover:bg-slate-800 text-slate-200';
+                  let btnStyle = 'bg-white/[0.04] backdrop-blur-md border-white/12 hover:bg-white/[0.08] text-slate-200';
                   if (isAnswered) {
                     if (isCorrect) {
                       btnStyle = 'bg-emerald-500/25 border-emerald-400 text-emerald-200 font-bold scale-[1.01]';

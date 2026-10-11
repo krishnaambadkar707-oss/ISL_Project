@@ -63,7 +63,7 @@ export default function ProgressDashboard({
 
       {/* Key Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="bg-slate-900/60 border border-white/10 p-4 rounded-2xl flex items-center gap-3.5">
+        <div className="bg-white/[0.04] backdrop-blur-md border border-white/12 p-4 rounded-2xl flex items-center gap-3.5">
           <div className="p-3 bg-purple-500/20 text-purple-400 rounded-xl">
             <BookOpen className="w-6 h-6" />
           </div>
@@ -76,7 +76,7 @@ export default function ProgressDashboard({
           </div>
         </div>
 
-        <div className="bg-slate-900/60 border border-white/10 p-4 rounded-2xl flex items-center gap-3.5">
+        <div className="bg-white/[0.04] backdrop-blur-md border border-white/12 p-4 rounded-2xl flex items-center gap-3.5">
           <div className="p-3 bg-cyan-500/20 text-cyan-400 rounded-xl">
             <Award className="w-6 h-6" />
           </div>
@@ -89,7 +89,7 @@ export default function ProgressDashboard({
           </div>
         </div>
 
-        <div className="bg-slate-900/60 border border-white/10 p-4 rounded-2xl flex items-center gap-3.5">
+        <div className="bg-white/[0.04] backdrop-blur-md border border-white/12 p-4 rounded-2xl flex items-center gap-3.5">
           <div className="p-3 bg-pink-500/20 text-pink-400 rounded-xl">
             <Heart className="w-6 h-6" />
           </div>
@@ -104,12 +104,12 @@ export default function ProgressDashboard({
       </div>
 
       {/* Main Progress Bar */}
-      <div className="bg-slate-900/80 border border-white/10 p-4 rounded-2xl">
+      <div className="bg-white/[0.04] backdrop-blur-md border border-white/12 p-4 rounded-2xl">
         <div className="flex items-center justify-between text-xs mb-2">
           <span className="font-bold text-slate-200">Overall Beginner ISL Progress</span>
           <span className="font-mono font-bold text-purple-400">{progressPercent}%</span>
         </div>
-        <div className="w-full bg-slate-950 rounded-full h-3.5 overflow-hidden p-0.5 border border-white/5">
+        <div className="w-full bg-slate-950/80 rounded-full h-3.5 overflow-hidden p-0.5 border border-white/10">
           <div
             className="bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 h-full rounded-full transition-all duration-500 shadow-md shadow-purple-500/50"
             style={{ width: `${Math.max(progressPercent, 4)}%` }}

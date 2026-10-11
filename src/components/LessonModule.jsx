@@ -99,7 +99,7 @@ export default function LessonModule({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search sign (e.g. A, Namaste)..."
-              className="w-full bg-slate-950/80 border border-white/15 rounded-2xl pl-10 pr-9 py-2 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-purple-500 transition-colors shadow-inner"
+              className="w-full bg-white/[0.05] border border-white/20 rounded-2xl pl-10 pr-9 py-2 text-xs text-slate-100 placeholder-slate-400 focus:outline-none focus:border-purple-400 backdrop-blur-md transition-colors shadow-inner"
             />
             {searchQuery && (
               <button
@@ -122,17 +122,17 @@ export default function LessonModule({
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`p-3.5 sm:p-4 rounded-2xl border text-left transition-all duration-300 flex items-center justify-between group ${
+                className={`p-3.5 sm:p-4 rounded-2xl border text-left transition-all duration-300 flex items-center justify-between group backdrop-blur-md ${
                   isActive
-                    ? 'bg-gradient-to-r from-purple-600/40 via-purple-600/30 to-pink-600/35 border-purple-400 text-white shadow-xl shadow-purple-950/50 scale-[1.01]'
-                    : 'bg-slate-900/60 border-white/10 text-slate-300 hover:bg-slate-800/80 hover:border-white/20 hover:text-white'
+                    ? 'bg-gradient-to-r from-purple-600/35 via-purple-600/25 to-pink-600/30 border-purple-400 text-white shadow-xl shadow-purple-950/50 scale-[1.01]'
+                    : 'bg-white/[0.04] border-white/12 text-slate-300 hover:bg-white/[0.08] hover:border-white/25 hover:text-white'
                 }`}
               >
                 <div className="flex items-center gap-3">
                   <div className={`p-2 rounded-xl transition-colors ${
                     isActive 
                       ? 'bg-gradient-to-tr from-amber-400 to-purple-500 text-slate-950 shadow-md font-bold' 
-                      : 'bg-slate-800 text-slate-400 group-hover:text-amber-400'
+                      : 'bg-white/[0.08] text-slate-400 group-hover:text-amber-400'
                   }`}>
                     {getCategoryIcon(cat.icon)}
                   </div>
@@ -172,10 +172,10 @@ export default function LessonModule({
               <button
                 key={item.id}
                 onClick={() => onSelectSign(item)}
-                className={`relative p-3.5 sm:p-4 rounded-2xl border text-center transition-all duration-300 flex flex-col items-center justify-between min-h-[140px] group ${
+                className={`relative p-3.5 sm:p-4 rounded-2xl border text-center transition-all duration-300 flex flex-col items-center justify-between min-h-[140px] group backdrop-blur-md ${
                   isSelected
-                    ? 'bg-gradient-to-b from-purple-900/50 via-slate-900/90 to-purple-950/60 border-purple-400 ring-2 ring-purple-500/60 scale-[1.03] shadow-2xl shadow-purple-950/70 text-white'
-                    : 'bg-slate-900/60 border-white/10 hover:bg-slate-800/90 hover:border-purple-400/40 hover:scale-[1.02] text-slate-200 shadow-md'
+                    ? 'bg-gradient-to-b from-purple-900/35 via-white/[0.08] to-purple-950/40 border-purple-400 ring-2 ring-purple-500/60 scale-[1.03] shadow-2xl shadow-purple-950/70 text-white'
+                    : 'bg-white/[0.04] border-white/12 hover:bg-white/[0.09] hover:border-purple-400/50 hover:scale-[1.02] text-slate-200 shadow-md'
                 }`}
               >
                 {/* Top Badges: Mastered Checkmark & Two-Handed Indicator */}
@@ -197,7 +197,7 @@ export default function LessonModule({
                 {/* Gesture Image Thumbnail */}
                 <div className="flex flex-col items-center gap-1.5 my-auto w-full">
                   {thumbImg && (
-                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-slate-950/90 border border-purple-500/30 p-1 shadow-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shrink-0">
+                    <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden bg-white/[0.05] border border-white/20 p-1 shadow-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shrink-0 backdrop-blur-sm">
                       <img 
                         src={thumbImg} 
                         alt={`ISL gesture demonstration for ${item.sign}`} 

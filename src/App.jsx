@@ -240,7 +240,7 @@ export default function App() {
           </div>
 
           {/* Center Navigation Segmented Tabs */}
-          <nav className="flex items-center gap-1.5 bg-slate-950/85 p-1.5 rounded-2xl border border-white/10 shadow-inner w-full md:w-auto justify-center">
+          <nav className="flex items-center gap-1.5 bg-white/[0.05] p-1.5 rounded-2xl border border-white/15 backdrop-blur-md shadow-inner w-full md:w-auto justify-center">
             <button
               onClick={() => handleTabChange('learn')}
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
@@ -287,7 +287,7 @@ export default function App() {
               className={`p-2.5 rounded-xl border transition-all ${
                 settings.soundEnabled ?? true
                   ? 'bg-purple-950/40 border-purple-500/40 text-purple-300 hover:bg-purple-900/60'
-                  : 'bg-slate-900/60 border-white/10 text-slate-500 hover:bg-slate-800'
+                  : 'bg-white/[0.05] border-white/10 text-slate-500 hover:bg-white/10'
               }`}
               title={settings.soundEnabled ?? true ? "Sound Effects Enabled (Click to Mute)" : "Sound Effects Muted (Click to Unmute)"}
             >
@@ -297,7 +297,7 @@ export default function App() {
             {/* Quick Theme Switcher */}
             <button
               onClick={toggleThemeQuick}
-              className="p-2.5 rounded-xl bg-slate-900/60 border border-white/10 text-amber-300 hover:bg-slate-800 transition-colors shadow-sm"
+              className="p-2.5 rounded-xl bg-white/[0.05] border border-white/15 text-amber-300 hover:bg-white/10 transition-colors shadow-sm backdrop-blur-sm"
               title={`Switch to ${settings.theme === 'bright' ? 'Dark' : 'Bright'} Theme`}
             >
               {settings.theme === 'bright' ? <Moon className="w-4 h-4" /> : <Sun className="w-4 h-4 text-amber-400" />}
@@ -321,7 +321,7 @@ export default function App() {
             {/* Settings Trigger */}
             <button
               onClick={() => setIsSettingsOpen(true)}
-              className="p-2.5 rounded-xl bg-slate-900/60 border border-white/10 text-slate-300 hover:bg-slate-800 transition-colors shadow-sm"
+              className="p-2.5 rounded-xl bg-white/[0.05] border border-white/15 text-slate-300 hover:bg-white/10 transition-colors shadow-sm backdrop-blur-sm"
               title="Open Settings & AI Configuration"
             >
               <Settings className="w-4 h-4" />
@@ -330,7 +330,7 @@ export default function App() {
         </header>
 
         {/* Dynamic Studio Dashboard Hero Banner */}
-        <section className="glass-card p-5 sm:p-6 bg-gradient-to-r from-purple-950/60 via-slate-900/80 to-amber-950/50 border border-purple-500/30 shadow-2xl relative overflow-hidden">
+        <section className="glass-card p-5 sm:p-6 border border-white/20 shadow-2xl relative overflow-hidden">
           
           {/* Subtle Ambient Radial Highlight */}
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
@@ -356,7 +356,7 @@ export default function App() {
             </div>
 
             {/* Curriculum Progress Meter & Quick Action */}
-            <div className="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-slate-950/70 p-3.5 rounded-2xl border border-white/10 backdrop-blur-md shrink-0">
+            <div className="w-full lg:w-auto flex flex-col sm:flex-row items-stretch sm:items-center gap-4 bg-white/[0.05] p-3.5 rounded-2xl border border-white/15 backdrop-blur-md shrink-0">
               <div className="space-y-1 sm:w-44">
                 <div className="flex items-center justify-between text-xs font-bold text-slate-300">
                   <span className="flex items-center gap-1.5">
@@ -365,7 +365,7 @@ export default function App() {
                   </span>
                   <span className="text-purple-300 font-mono">{progressPercent}%</span>
                 </div>
-                <div className="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-white/5">
+                <div className="w-full h-2.5 bg-slate-800/80 rounded-full overflow-hidden p-0.5 border border-white/10">
                   <div
                     className="h-full bg-gradient-to-r from-amber-400 via-purple-500 to-pink-500 rounded-full transition-all duration-700 shadow-md"
                     style={{ width: `${progressPercent}%` }}
@@ -394,7 +394,7 @@ export default function App() {
           <div className="space-y-6">
             
             {/* Interactive Studio Stage Container */}
-            <div className="glass-card p-5 sm:p-6 space-y-4 border border-purple-500/25 shadow-2xl">
+            <div className="glass-card p-5 sm:p-6 space-y-4 border border-white/20 shadow-2xl">
               
               {/* Studio Header Bar & Stage Mode Switcher */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
@@ -409,7 +409,7 @@ export default function App() {
                 </div>
 
                 {/* Studio Mode Tabs: 2D Avatar Demonstrator | Live Camera Practice | Hana AI Chat */}
-                <div className="flex items-center gap-1 bg-slate-950/85 p-1 rounded-2xl border border-white/10 shadow-inner overflow-x-auto max-w-full">
+                <div className="flex items-center gap-1 bg-white/[0.05] p-1 rounded-2xl border border-white/15 backdrop-blur-md shadow-inner overflow-x-auto max-w-full">
                   <button
                     onClick={() => handleStudioStageChange('2d-avatar')}
                     className={`studio-tab-btn ${studioStage === '2d-avatar' ? 'active' : ''}`}

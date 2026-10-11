@@ -181,7 +181,7 @@ export default function VoiceTextChat({
   return (
     <div className="glass-card flex flex-col h-full w-full min-h-[480px] overflow-hidden">
       {/* Header */}
-      <div className="p-4 border-b border-white/10 flex items-center justify-between bg-slate-900/80">
+      <div className="p-4 border-b border-white/10 flex items-center justify-between bg-white/[0.04] backdrop-blur-md">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center text-white shadow-md">
             <Sparkles className="w-5 h-5" />
@@ -241,15 +241,15 @@ export default function VoiceTextChat({
             <div
               className={`max-w-[85%] p-3.5 rounded-2xl text-xs sm:text-sm leading-relaxed ${
                 msg.sender === 'user'
-                  ? 'bg-cyan-600/30 border border-cyan-500/40 text-slate-100 rounded-tr-none'
-                  : 'bg-slate-900/90 border border-purple-500/30 text-slate-100 rounded-tl-none shadow-md'
+                  ? 'bg-cyan-600/30 border border-cyan-500/40 text-slate-100 rounded-tr-none backdrop-blur-md'
+                  : 'bg-white/[0.06] border border-purple-500/30 text-slate-100 rounded-tl-none shadow-md backdrop-blur-md'
               }`}
             >
               <p className="whitespace-pre-line">{msg.text}</p>
 
               {/* Matched Sign Preview Card with Practice Button */}
               {msg.matchedSign && (
-                <div className="mt-3 p-2.5 bg-slate-950/80 rounded-xl border border-purple-500/30 flex items-center justify-between gap-3">
+                <div className="mt-3 p-2.5 bg-white/[0.05] backdrop-blur-md rounded-xl border border-purple-500/30 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2.5">
                     {msg.matchedSign.image && (
                       <div className="w-11 h-11 rounded-lg overflow-hidden bg-slate-900 border border-white/10 p-0.5 shrink-0">
@@ -318,13 +318,13 @@ export default function VoiceTextChat({
       </div>
 
       {/* Quick Suggestion Chips */}
-      <div className="px-4 py-2 border-t border-white/5 bg-slate-950/60 flex items-center gap-2 overflow-x-auto scrollbar-none">
+      <div className="px-4 py-2 border-t border-white/10 bg-white/[0.03] backdrop-blur-md flex items-center gap-2 overflow-x-auto scrollbar-none">
         <Lightbulb className="w-4 h-4 text-amber-400 shrink-0" />
         {suggestionChips.map((chip, idx) => (
           <button
             key={idx}
             onClick={() => handleChipClick(chip)}
-            className="px-3 py-1 bg-slate-900 border border-white/10 hover:border-purple-500/50 hover:bg-slate-800 text-slate-300 hover:text-white rounded-full text-xs font-medium whitespace-nowrap transition-colors"
+            className="px-3 py-1 bg-white/[0.05] border border-white/12 hover:border-purple-500/50 hover:bg-white/[0.10] text-slate-300 hover:text-white rounded-full text-xs font-medium whitespace-nowrap transition-colors backdrop-blur-sm"
           >
             {chip.label}
           </button>
@@ -332,14 +332,14 @@ export default function VoiceTextChat({
       </div>
 
       {/* Input Bar */}
-      <div className="p-3.5 border-t border-white/10 bg-slate-900/90 flex items-center gap-2.5">
+      <div className="p-3.5 border-t border-white/10 bg-white/[0.05] backdrop-blur-md flex items-center gap-2.5">
         {speechSupported && (
           <button
             onClick={toggleListening}
             className={`p-3 rounded-xl border transition-all ${
               isListening
                 ? 'bg-rose-500 text-white border-rose-400 animate-pulse shadow-lg shadow-rose-500/40'
-                : 'bg-slate-800 text-slate-300 border-white/15 hover:bg-slate-700'
+                : 'bg-white/[0.06] text-slate-300 border-white/15 hover:bg-white/[0.12]'
             }`}
             title={isListening ? 'Listening... Speak now' : 'Click to Speak (Speech-to-Text)'}
           >
@@ -353,7 +353,7 @@ export default function VoiceTextChat({
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
           placeholder={isListening ? "Listening... Speak to Hana" : "Ask Hana about signs, letters, or practice..."}
-          className="flex-1 bg-slate-950/80 border border-white/15 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-purple-500 transition-colors shadow-inner"
+          className="flex-1 bg-white/[0.05] border border-white/20 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-purple-400 backdrop-blur-md transition-colors shadow-inner"
         />
 
         <button

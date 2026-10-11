@@ -395,10 +395,10 @@ export default function CameraPractice({ currentSign, onMasteredSign, onFeedBack
           {/* Ghost Guide Toggle Button */}
           <button
             onClick={() => setShowGhostGuide(!showGhostGuide)}
-            className={`px-2.5 py-1 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 ${
+            className={`px-2.5 py-1 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 backdrop-blur-sm ${
               showGhostGuide
                 ? 'bg-cyan-500/20 text-cyan-300 border-cyan-400/50 shadow-sm shadow-cyan-950/40'
-                : 'bg-slate-900/60 text-slate-400 border-white/10 hover:text-white'
+                : 'bg-white/[0.05] text-slate-400 border-white/15 hover:text-white'
             }`}
             title="Toggle Ghost Guide Overlay"
           >
@@ -416,7 +416,7 @@ export default function CameraPractice({ currentSign, onMasteredSign, onFeedBack
       </div>
 
       {/* Camera Video / Canvas Stage */}
-      <div className="relative w-full aspect-video bg-slate-950/90 rounded-2xl overflow-hidden border border-white/10 flex items-center justify-center shadow-2xl">
+      <div className="relative w-full aspect-video bg-black/40 backdrop-blur-md rounded-2xl overflow-hidden border border-white/15 flex items-center justify-center shadow-2xl">
         {!isCameraActive ? (
           <div className="flex flex-col items-center justify-center p-6 text-center gap-3">
             <div className="p-4 bg-gradient-to-tr from-amber-500/20 via-purple-500/20 to-cyan-500/20 text-amber-400 rounded-2xl border border-amber-500/30">
@@ -482,7 +482,7 @@ export default function CameraPractice({ currentSign, onMasteredSign, onFeedBack
 
       {/* Bottom Match Status Card */}
       {isCameraActive && (
-        <div className="w-full mt-3 p-3.5 bg-slate-900/90 border border-white/10 rounded-2xl flex items-center gap-3 backdrop-blur-md">
+        <div className="w-full mt-3 p-3.5 bg-white/[0.04] border border-white/15 rounded-2xl flex items-center gap-3 backdrop-blur-md">
           {matchStatus.status === 'success' ? (
             <div className="p-2.5 bg-emerald-500/20 text-emerald-400 rounded-xl">
               <CheckCircle2 className="w-5 h-5 animate-pulse" />
