@@ -3,6 +3,7 @@ import hanaAvatarImg from '../../Avatar_image.jpeg';
 import gestureGuideImg from '../../gesture.jpeg';
 import azChartImg from '../../A-Z.jpeg';
 import { ISL_VIDEOS_LIST, getSignVideo } from '../data/signVideos';
+import { getSignImage } from '../data/signImages';
 import { soundFx } from '../utils/soundEffects';
 import { 
   FastForward, 
@@ -104,10 +105,18 @@ export default function Hana2DGestureAvatar({
     }
   };
 
-  // Determine active sign image (prioritize dedicated sign image from images folder)
+  // Re-render when background image crops finish
+  const [, setCropTick] = useState(0);
+  useEffect(() => {
+    const handleCrops = () => setCropTick(t => t + 1);
+    window.addEventListener('isl-crops-updated', handleCrops);
+    return () => window.removeEventListener('isl-crops-updated', handleCrops);
+  }, []);
+
+  // Determine active sign image (prioritize dedicated photographic sign image)
   const isAlphabetSign = currentSign?.category === 'alphabet';
-  const hasDedicatedImage = !!currentSign?.image;
-  const activeGestureImage = currentSign?.image || (isAlphabetSign ? azChartImg : gestureGuideImg);
+  const activeGestureImage = getSignImage(currentSign) || (isAlphabetSign ? azChartImg : gestureGuideImg);
+  const hasDedicatedImage = !!activeGestureImage;
 
   return (
     <div className="glass-card relative overflow-hidden flex flex-col justify-between p-4 sm:p-6 w-full h-full min-h-[500px]">

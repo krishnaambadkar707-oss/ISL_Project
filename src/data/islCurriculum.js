@@ -71,20 +71,29 @@ export const ISL_BADGES = [
 ];
 
 // MediaPipe Helper Functions for Gesture Recognizers
-const isExtended = (lm, fingerIdx) => {
+export const isExtended = (lm, fingerIdx) => {
+  if (!lm || !Array.isArray(lm)) return false;
   const tipMap = { index: 8, middle: 12, ring: 16, pinky: 20 };
   const pipMap = { index: 6, middle: 10, ring: 14, pinky: 18 };
   const tip = lm[tipMap[fingerIdx]];
   const pip = lm[pipMap[fingerIdx]];
+  if (!tip || !pip) return false;
   return tip.y < pip.y;
 };
 
-const isClosed = (lm, fingerIdx) => {
+export const isClosed = (lm, fingerIdx) => {
+  if (!lm || !Array.isArray(lm)) return false;
   const tipMap = { index: 8, middle: 12, ring: 16, pinky: 20 };
   const pipMap = { index: 6, middle: 10, ring: 14, pinky: 18 };
   const tip = lm[tipMap[fingerIdx]];
   const pip = lm[pipMap[fingerIdx]];
+  if (!tip || !pip) return false;
   return tip.y > pip.y;
+};
+
+export const getHandDistance = (lm1, lm2, idx1 = 0, idx2 = 0) => {
+  if (!lm1 || !lm2 || !lm1[idx1] || !lm2[idx2]) return 999;
+  return Math.hypot(lm1[idx1].x - lm2[idx2].x, lm1[idx1].y - lm2[idx2].y);
 };
 
 const RAW_ISL_CURRICULUM = [
@@ -570,15 +579,40 @@ const RAW_ISL_CURRICULUM = [
     recognize: (lm) => isExtended(lm, 'index') && isExtended(lm, 'pinky') && isClosed(lm, 'middle') && isClosed(lm, 'ring')
   },
   {
+    id: 'isl-namaste',
+    category: 'greetings',
+    sign: 'NAMASTE',
+    title: 'Namaste',
+    meaning: 'Traditional respectful Indian greeting with both palms together',
+    description: 'Bring both open palms together at chest level in front of your heart in respectful prayer posture.',
+    tips: 'Both palms flat against each other, fingers pointing straight up.',
+    isTwoHanded: true,
+    pose3d: { thumb: [0, 0, 0], index: [0, 0, 0], middle: [0, 0, 0], ring: [0, 0, 0], pinky: [0, 0, 0] },
+    recognize: (lm1, lm2) => {
+      if (!lm1 || !lm2) return false;
+      const wristDist = Math.hypot(lm1[0].x - lm2[0].x, lm1[0].y - lm2[0].y);
+      const h1Extended = isExtended(lm1, 'index') && isExtended(lm1, 'middle');
+      const h2Extended = isExtended(lm2, 'index') && isExtended(lm2, 'middle');
+      return h1Extended && h2Extended && wristDist < 0.32;
+    }
+  },
+  {
     id: 'isl-good-morning',
     category: 'greetings',
     sign: 'GOOD MORNING',
     title: 'Good Morning',
     meaning: 'Morning greeting in ISL',
     description: 'Sign GOOD (chin to open palm) followed by MORNING (arm raising like the sun).',
-    tips: 'Sun rising gesture.',
+    tips: 'Sun rising gesture with one hand rising above base.',
+    isTwoHanded: true,
     pose3d: { thumb: [0.2, 0, 0], index: [0, 0, 0], middle: [0, 0, 0], ring: [0, 0, 0], pinky: [0, 0, 0] },
-    recognize: (lm) => isExtended(lm, 'index') && isExtended(lm, 'middle')
+    recognize: (lm1, lm2) => {
+      if (!lm1) return false;
+      if (lm2) {
+        return (isExtended(lm1, 'index') || isExtended(lm1, 'middle')) && (isExtended(lm2, 'index') || isExtended(lm2, 'middle'));
+      }
+      return isExtended(lm1, 'index') && isExtended(lm1, 'middle');
+    }
   },
   {
     id: 'isl-nice-to-meet-you',
@@ -588,8 +622,16 @@ const RAW_ISL_CURRICULUM = [
     meaning: 'Welcoming phrase in ISL',
     description: 'Sign NICE (wiping flat palm over hand) then bring index fingers together (MEET).',
     tips: 'Two index fingers meeting together.',
+    isTwoHanded: true,
     pose3d: { thumb: [1.0, 0.5, 0], index: [0, 0, 0], middle: [1.4, 0, 0], ring: [1.4, 0, 0], pinky: [1.4, 0, 0] },
-    recognize: (lm) => isExtended(lm, 'index') && isClosed(lm, 'middle')
+    recognize: (lm1, lm2) => {
+      if (!lm1) return false;
+      if (lm2) {
+        const dist = Math.hypot(lm1[8].x - lm2[8].x, lm1[8].y - lm2[8].y);
+        return isExtended(lm1, 'index') && isExtended(lm2, 'index') && dist < 0.35;
+      }
+      return isExtended(lm1, 'index') && isClosed(lm1, 'middle');
+    }
   },
 
   // --- PHRASES ---
@@ -612,8 +654,16 @@ const RAW_ISL_CURRICULUM = [
     meaning: 'Introducing yourself in ISL',
     description: 'Tap flat hand on chest (MY) then tap crossed "H" fingers together twice (NAME).',
     tips: 'Tap two H fingers together.',
+    isTwoHanded: true,
     pose3d: { thumb: [1.2, 0.5, 0], index: [0, -0.8, 0], middle: [0, -0.8, 0], ring: [1.4, 0, 0], pinky: [1.4, 0, 0] },
-    recognize: (lm) => isExtended(lm, 'index') && isExtended(lm, 'middle')
+    recognize: (lm1, lm2) => {
+      if (!lm1) return false;
+      if (lm2) {
+        const dist = Math.hypot(lm1[8].x - lm2[8].x, lm1[8].y - lm2[8].y);
+        return isExtended(lm1, 'index') && isExtended(lm2, 'index') && dist < 0.35;
+      }
+      return isExtended(lm1, 'index') && isExtended(lm1, 'middle');
+    }
   },
   {
     id: 'isl-happy',
@@ -634,8 +684,19 @@ const RAW_ISL_CURRICULUM = [
     meaning: 'Asking for or offering assistance in ISL',
     description: 'Place right "thumbs up" fist on top of left open palm, lifting both up together.',
     tips: 'Thumbs up resting on supportive open palm.',
+    isTwoHanded: true,
     pose3d: { thumb: [0, 0, -0.6], index: [1.4, 0, 0], middle: [1.4, 0, 0], ring: [1.4, 0, 0], pinky: [1.4, 0, 0] },
-    recognize: (lm) => isClosed(lm, 'index') && isClosed(lm, 'middle') && lm[4].y < lm[3].y
+    recognize: (lm1, lm2) => {
+      if (!lm1) return false;
+      if (lm2) {
+        const dist = Math.hypot(lm1[0].x - lm2[0].x, lm1[0].y - lm2[0].y);
+        const oneClosed = isClosed(lm1, 'index') && isClosed(lm1, 'middle');
+        const otherOpen = isExtended(lm2, 'index') || isExtended(lm2, 'middle');
+        const reverse = (isClosed(lm2, 'index') && isClosed(lm2, 'middle')) && (isExtended(lm1, 'index') || isExtended(lm1, 'middle'));
+        return (oneClosed && otherOpen && dist < 0.40) || (reverse && dist < 0.40);
+      }
+      return isClosed(lm1, 'index') && isClosed(lm1, 'middle') && lm1[4].y < lm1[3].y;
+    }
   },
   {
     id: 'isl-friend',
@@ -645,8 +706,18 @@ const RAW_ISL_CURRICULUM = [
     meaning: 'Friendship sign in ISL',
     description: 'Hook right index finger over left index finger, then reverse and hook again.',
     tips: 'Interlocked index fingers.',
+    isTwoHanded: true,
     pose3d: { thumb: [1.2, 0.5, 0], index: [0.8, 0.5, 0], middle: [1.4, 0, 0], ring: [1.4, 0, 0], pinky: [1.4, 0, 0] },
-    recognize: (lm) => isClosed(lm, 'middle') && isClosed(lm, 'ring')
+    recognize: (lm1, lm2) => {
+      if (!lm1) return false;
+      if (lm2) {
+        const dist = Math.hypot(lm1[8].x - lm2[8].x, lm1[8].y - lm2[8].y);
+        const h1Idx = isExtended(lm1, 'index');
+        const h2Idx = isExtended(lm2, 'index');
+        return h1Idx && h2Idx && dist < 0.28;
+      }
+      return isClosed(lm1, 'middle') && isClosed(lm1, 'ring');
+    }
   },
   {
     id: 'isl-how-are-you',
@@ -656,8 +727,17 @@ const RAW_ISL_CURRICULUM = [
     meaning: 'Asking how someone is doing in ISL',
     description: 'Place both curved hands with knuckles touching chest, roll outward (HOW) then point to the person (YOU).',
     tips: 'Roll curved hands forward and point gently.',
+    isTwoHanded: true,
     pose3d: { thumb: [0.5, 0.3, 0], index: [0.6, 0.4, 0], middle: [0.6, 0.4, 0], ring: [0.6, 0.4, 0], pinky: [0.6, 0.4, 0] },
-    recognize: (lm) => isExtended(lm, 'index') && isExtended(lm, 'middle')
+    recognize: (lm1, lm2) => {
+      if (!lm1) return false;
+      if (lm2) {
+        const h1Ext = isExtended(lm1, 'index') || isExtended(lm1, 'middle');
+        const h2Ext = isExtended(lm2, 'index') || isExtended(lm2, 'middle');
+        return h1Ext && h2Ext;
+      }
+      return isExtended(lm1, 'index') && isExtended(lm1, 'middle');
+    }
   },
   {
     id: 'isl-pleased-to-know',
@@ -667,8 +747,15 @@ const RAW_ISL_CURRICULUM = [
     meaning: 'Expressing pleasure in meeting or knowing someone',
     description: 'Flat hand wipes horizontally over non-dominant palm (PLEASED/NICE) followed by tapping forehead (KNOW).',
     tips: 'Smooth wiping motion transitioning to temple/forehead tap.',
+    isTwoHanded: true,
     pose3d: { thumb: [0.2, 0, 0], index: [0, 0, 0], middle: [0, 0, 0], ring: [0, 0, 0], pinky: [0, 0, 0] },
-    recognize: (lm) => isExtended(lm, 'index') && isExtended(lm, 'middle')
+    recognize: (lm1, lm2) => {
+      if (!lm1) return false;
+      if (lm2) {
+        return (isExtended(lm1, 'index') || isExtended(lm1, 'middle')) && (isExtended(lm2, 'index') || isExtended(lm2, 'middle'));
+      }
+      return isExtended(lm1, 'index') && isExtended(lm1, 'middle');
+    }
   }
 ];
 

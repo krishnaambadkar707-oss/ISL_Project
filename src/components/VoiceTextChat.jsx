@@ -1,38 +1,61 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Mic, MicOff, Send, Sparkles, User, MessageSquare, Lightbulb } from 'lucide-react';
+import { 
+  Mic, 
+  MicOff, 
+  Send, 
+  Sparkles, 
+  User, 
+  MessageSquare, 
+  Lightbulb, 
+  Key, 
+  Bot, 
+  Zap, 
+  Settings, 
+  ExternalLink,
+  Camera
+} from 'lucide-react';
 import { HANA_PERSONALITY, ISL_CURRICULUM } from '../data/islCurriculum';
+import { askHanaAI, detectProvider } from '../utils/aiService';
 
 export default function VoiceTextChat({ 
   currentSign, 
   onSpeakText, 
   userMemory, 
-  onSelectSign 
+  onSelectSign,
+  settings,
+  onOpenSettings
 }) {
   const [messages, setMessages] = useState([
     {
       id: 'msg-1',
       sender: 'hana',
       text: HANA_PERSONALITY.greeting,
+      source: 'offline',
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
   const [inputText, setInputText] = useState('');
   const [isListening, setIsListening] = useState(false);
+  const [isThinking, setIsThinking] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(true);
   const chatEndRef = useRef(null);
   const recognitionRef = useRef(null);
 
+  const hasApiKey = Boolean(settings?.apiKey?.trim());
+  const activeProvider = settings?.llmProvider || detectProvider(settings?.apiKey || '');
+
   // Quick Suggestion Chips
   const suggestionChips = [
-    { label: "Show letter A", signName: "A" },
-    { label: "Show Hello sign", signName: "HELLO" },
-    { label: "Practice Numbers", signName: "1" },
+    { label: "How to sign Hello?", signName: "HELLO" },
+    { label: "Show letter A in ISL", signName: "A" },
+    { label: "Two-handed signs in ISL?", query: "How do two-handed signs work in ISL?" },
+    { label: "Sign Namaste", signName: "NAMASTE" },
     { label: "Who is Hana?", query: "Who are you?" }
   ];
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+  }, [messages, isThinking]);
 
   useEffect(() => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -77,9 +100,9 @@ export default function VoiceTextChat({
     }
   };
 
-  const handleSendMessage = (textToSend) => {
+  const handleSendMessage = async (textToSend) => {
     const query = textToSend || inputText;
-    if (!query.trim()) return;
+    if (!query.trim() || isThinking) return;
 
     const userMsg = {
       id: `user-${Date.now()}`,
@@ -90,8 +113,21 @@ export default function VoiceTextChat({
 
     setMessages(prev => [...prev, userMsg]);
     setInputText('');
+    setIsThinking(true);
 
-    setTimeout(() => {
+    try {
+      // Call AI Service (Live LLM or Offline Fallback)
+      const aiResponse = await askHanaAI({
+        userQuery: query,
+        currentSign,
+        userMemory,
+        history: messages,
+        apiKey: settings?.apiKey || '',
+        provider: activeProvider,
+        allCurriculum: ISL_CURRICULUM
+      });
+
+      // Detect if an ISL sign matches the query or reply
       const qLower = query.toLowerCase();
       const matchedSign = ISL_CURRICULUM.find(s => 
         qLower.includes(` ${s.sign.toLowerCase()} `) || 
@@ -101,21 +137,35 @@ export default function VoiceTextChat({
         qLower.includes(s.title.toLowerCase())
       ) || (qLower.includes('sign') ? currentSign : null);
 
-      const replyText = generateHanaReply(query, currentSign, userMemory);
       const hanaMsg = {
         id: `hana-${Date.now()}`,
         sender: 'hana',
-        text: replyText,
-        signImage: matchedSign?.image || null,
-        signTitle: matchedSign ? `Sign "${matchedSign.sign}" — ${matchedSign.title}` : null,
+        text: aiResponse.text,
+        source: aiResponse.source,
+        isLive: aiResponse.isLive,
+        matchedSign: matchedSign || null,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
       setMessages(prev => [...prev, hanaMsg]);
+
+      // Read reply aloud with text-to-speech
       if (onSpeakText) {
-        onSpeakText(replyText);
+        onSpeakText(aiResponse.text);
       }
-    }, 500);
+    } catch (err) {
+      console.error("Chat error:", err);
+      const fallbackMsg = {
+        id: `hana-${Date.now()}`,
+        sender: 'hana',
+        text: "I'm right here with you! Let's keep practicing ISL together. Which sign would you like to view next? 🌸",
+        source: 'offline',
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      setMessages(prev => [...prev, fallbackMsg]);
+    } finally {
+      setIsThinking(false);
+    }
   };
 
   const handleChipClick = (chip) => {
@@ -128,30 +178,8 @@ export default function VoiceTextChat({
     handleSendMessage(chip.query || chip.label);
   };
 
-  const generateHanaReply = (userQuery, signCtx, memory) => {
-    const q = userQuery.toLowerCase();
-
-    if (q.includes('hello') || q.includes('hi') || q.includes('hey')) {
-      return `Hi ${memory?.name || 'friend'}! 🌸 I'm so happy to practice ISL with you! Which sign would you like to try right now?`;
-    }
-    if (q.includes('who are you') || q.includes('who is hana')) {
-      return "I'm Hana, your friendly AI sign-language and voice companion! 🌸 I'm here to help you practice beginner ISL with 3D demonstrations, voice chat, and live camera feedback!";
-    }
-    if (q.includes('deaf') || q.includes('interpreter')) {
-      return "I'm an AI companion here to make beginner practice low-pressure and fun! I always encourage learning directly from human Deaf educators and community events for full fluency! 💖";
-    }
-    if (q.includes('thank')) {
-      return "You are so very welcome! Keep up the awesome practice! ✨";
-    }
-    if (signCtx) {
-      return `Great question about '${signCtx.sign}' (${signCtx.title})! ${signCtx.description} Would you like to practice it in front of the camera now?`;
-    }
-
-    return `That's wonderful! As your ISL tutor, I love practicing with you. Try selecting any letter (A-Z) or greeting below, or turn on your camera! 🌸`;
-  };
-
   return (
-    <div className="glass-card flex flex-col h-full w-full min-h-[460px] overflow-hidden">
+    <div className="glass-card flex flex-col h-full w-full min-h-[480px] overflow-hidden">
       {/* Header */}
       <div className="p-4 border-b border-white/10 flex items-center justify-between bg-slate-900/80">
         <div className="flex items-center gap-3">
@@ -160,12 +188,34 @@ export default function VoiceTextChat({
           </div>
           <div>
             <h3 className="text-sm font-bold text-slate-100 leading-none">Hana AI Voice & Text Companion</h3>
-            <span className="text-xs text-purple-400 font-medium">Voice & Text Mode Active</span>
+            <span className="text-[11px] text-purple-300 font-medium">Interactive ISL Tutor</span>
           </div>
         </div>
-        <div className="flex items-center gap-1.5 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-xs text-emerald-300 font-semibold">Online</span>
+
+        {/* Live AI Status Badge */}
+        <div className="flex items-center gap-2">
+          {hasApiKey ? (
+            <div className="flex items-center gap-1.5 bg-purple-500/15 px-3 py-1 rounded-full border border-purple-400/30">
+              <span className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
+              <span className="text-[11px] text-purple-200 font-bold uppercase tracking-wider">
+                Live AI ({activeProvider === 'openai' ? 'OpenAI' : 'Gemini'})
+              </span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-1.5 bg-amber-500/10 px-2.5 py-1 rounded-full border border-amber-500/25">
+              <Zap className="w-3.5 h-3.5 text-amber-400" />
+              <span className="text-[11px] text-amber-300 font-medium">Smart Offline Mode</span>
+              {onOpenSettings && (
+                <button
+                  onClick={onOpenSettings}
+                  className="text-[10px] text-amber-400 underline hover:text-white ml-1 font-bold"
+                  title="Configure Gemini or OpenAI API Key"
+                >
+                  (Connect Live AI)
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
@@ -181,40 +231,89 @@ export default function VoiceTextChat({
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${
                 msg.sender === 'user'
-                  ? 'bg-cyan-600 text-white'
-                  : 'bg-purple-600 text-white'
+                  ? 'bg-cyan-600 text-white shadow-md shadow-cyan-900/40'
+                  : 'bg-gradient-to-tr from-purple-600 to-pink-600 text-white shadow-md shadow-purple-900/40'
               }`}
             >
-              {msg.sender === 'user' ? <User className="w-4 h-4" /> : <Sparkles className="w-4 h-4" />}
+              {msg.sender === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
             </div>
 
             <div
-              className={`max-w-[82%] p-3.5 rounded-2xl text-xs sm:text-sm leading-relaxed ${
+              className={`max-w-[85%] p-3.5 rounded-2xl text-xs sm:text-sm leading-relaxed ${
                 msg.sender === 'user'
-                  ? 'bg-cyan-600/35 border border-cyan-500/40 text-slate-100 rounded-tr-none'
+                  ? 'bg-cyan-600/30 border border-cyan-500/40 text-slate-100 rounded-tr-none'
                   : 'bg-slate-900/90 border border-purple-500/30 text-slate-100 rounded-tl-none shadow-md'
               }`}
             >
-              <p>{msg.text}</p>
+              <p className="whitespace-pre-line">{msg.text}</p>
 
-              {msg.signImage && (
-                <div className="mt-2.5 p-2 bg-slate-950/80 rounded-xl border border-purple-500/30 flex items-center gap-3">
-                  <div className="w-14 h-14 rounded-lg overflow-hidden bg-slate-900 border border-white/10 p-1 shrink-0">
-                    <img src={msg.signImage} alt="ISL Sign preview" className="w-full h-full object-contain rounded-md" />
+              {/* Matched Sign Preview Card with Practice Button */}
+              {msg.matchedSign && (
+                <div className="mt-3 p-2.5 bg-slate-950/80 rounded-xl border border-purple-500/30 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2.5">
+                    {msg.matchedSign.image && (
+                      <div className="w-11 h-11 rounded-lg overflow-hidden bg-slate-900 border border-white/10 p-0.5 shrink-0">
+                        <img 
+                          src={msg.matchedSign.image} 
+                          alt="ISL Sign visual" 
+                          className="w-full h-full object-contain rounded" 
+                        />
+                      </div>
+                    )}
+                    <div>
+                      <span className="text-[10px] uppercase font-mono text-purple-300 font-bold block">
+                        Sign: {msg.matchedSign.sign}
+                      </span>
+                      <span className="text-xs font-bold text-slate-200">
+                        {msg.matchedSign.title}
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <span className="text-[10px] uppercase font-mono text-purple-300 font-bold block">Sign Visual</span>
-                    <span className="text-xs font-bold text-slate-100">{msg.signTitle}</span>
-                  </div>
+
+                  {onSelectSign && (
+                    <button
+                      onClick={() => onSelectSign(msg.matchedSign)}
+                      className="btn btn-secondary text-[11px] py-1 px-2.5 flex items-center gap-1 shrink-0"
+                    >
+                      <Camera className="w-3 h-3 text-amber-400" />
+                      Practice Sign
+                    </button>
+                  )}
                 </div>
               )}
 
-              <span className="block text-[10px] text-slate-400 mt-1.5 text-right font-mono">
-                {msg.timestamp}
-              </span>
+              {/* Message Footer: Timestamp and AI Source Badge */}
+              <div className="flex items-center justify-between mt-2 pt-1 border-t border-white/5 text-[10px] text-slate-400">
+                {msg.sender === 'hana' ? (
+                  <span className="flex items-center gap-1 font-mono text-purple-300">
+                    {msg.source === 'gemini' ? (
+                      <>✨ Gemini 1.5 Flash</>
+                    ) : msg.source === 'openai' ? (
+                      <>✨ GPT-4o-mini</>
+                    ) : (
+                      <>⚡ Hana Offline Companion</>
+                    )}
+                  </span>
+                ) : <span />}
+                <span className="font-mono">{msg.timestamp}</span>
+              </div>
             </div>
           </div>
         ))}
+
+        {/* Thinking Indicator */}
+        {isThinking && (
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-purple-600 to-pink-600 text-white flex items-center justify-center shrink-0 animate-pulse">
+              <Bot className="w-4 h-4" />
+            </div>
+            <div className="p-3 bg-slate-900/90 border border-purple-500/30 rounded-2xl rounded-tl-none text-xs text-purple-300 flex items-center gap-2 shadow-md">
+              <span className="w-2 h-2 rounded-full bg-purple-400 animate-ping" />
+              <span>Hana is thinking... 🌸</span>
+            </div>
+          </div>
+        )}
+
         <div ref={chatEndRef} />
       </div>
 
@@ -253,13 +352,13 @@ export default function VoiceTextChat({
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-          placeholder={isListening ? "Listening..." : "Talk with Hana..."}
+          placeholder={isListening ? "Listening... Speak to Hana" : "Ask Hana about signs, letters, or practice..."}
           className="flex-1 bg-slate-950/80 border border-white/15 rounded-xl px-4 py-2.5 text-xs sm:text-sm text-slate-100 placeholder-slate-400 focus:outline-none focus:border-purple-500 transition-colors shadow-inner"
         />
 
         <button
           onClick={() => handleSendMessage()}
-          disabled={!inputText.trim()}
+          disabled={!inputText.trim() || isThinking}
           className="btn btn-primary p-3 rounded-xl disabled:opacity-40 disabled:hover:transform-none"
         >
           <Send className="w-4.5 h-4.5" />

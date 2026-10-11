@@ -1,6 +1,24 @@
 import React, { useState } from 'react';
-import { X, Settings, ShieldCheck, Volume2, Key, User, Moon, Sun, Bell, Sparkles } from 'lucide-react';
+import { 
+  X, 
+  Settings, 
+  ShieldCheck, 
+  Volume2, 
+  Key, 
+  User, 
+  Moon, 
+  Sun, 
+  Bell, 
+  Sparkles,
+  Eye,
+  EyeOff,
+  CheckCircle2,
+  AlertCircle,
+  RefreshCw,
+  ExternalLink
+} from 'lucide-react';
 import { soundFx } from '../utils/soundEffects';
+import { testApiConnection } from '../utils/aiService';
 
 export default function SettingsModal({ isOpen, onClose, settings, onSaveSettings, onTriggerNotification }) {
   if (!isOpen) return null;
@@ -12,6 +30,9 @@ export default function SettingsModal({ isOpen, onClose, settings, onSaveSetting
   const [soundEnabled, setSoundEnabled] = useState(settings?.soundEnabled ?? true);
   const [browserNotifications, setBrowserNotifications] = useState(settings?.browserNotifications ?? false);
   const [apiKey, setApiKey] = useState(settings?.apiKey || '');
+  const [llmProvider, setLlmProvider] = useState(settings?.llmProvider || 'auto');
+  const [showKey, setShowKey] = useState(false);
+  const [testStatus, setTestStatus] = useState(null);
   const [textOnlyMode, setTextOnlyMode] = useState(settings?.textOnlyMode || false);
 
   const handleToggleNotifications = async (e) => {
@@ -45,6 +66,23 @@ export default function SettingsModal({ isOpen, onClose, settings, onSaveSetting
     }
   };
 
+  const handleTestConnection = async () => {
+    if (!apiKey.trim()) {
+      setTestStatus({ ok: false, message: 'Please paste an API key first!' });
+      return;
+    }
+
+    setTestStatus({ loading: true, message: 'Testing connection to AI...' });
+    const result = await testApiConnection(apiKey, llmProvider);
+    if (result.ok) {
+      soundFx.playSuccessChime();
+      setTestStatus({ ok: true, message: result.message || 'Connection verified! Hana Live AI is ready! 🌸' });
+    } else {
+      soundFx.playQuizWrong();
+      setTestStatus({ ok: false, message: result.error || 'Connection failed. Please check your key.' });
+    }
+  };
+
   const handleSave = () => {
     soundFx.enabled = soundEnabled;
     onSaveSettings({
@@ -55,6 +93,7 @@ export default function SettingsModal({ isOpen, onClose, settings, onSaveSetting
       soundEnabled,
       browserNotifications,
       apiKey,
+      llmProvider,
       textOnlyMode
     });
     onClose();
@@ -229,19 +268,93 @@ export default function SettingsModal({ isOpen, onClose, settings, onSaveSetting
           </label>
         </div>
 
-        {/* 6. Optional API Key Input */}
-        <div className="bg-slate-900/70 border border-white/10 p-4 rounded-2xl space-y-2">
-          <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-            <Key className="w-4 h-4 text-amber-400" />
-            Optional LLM API Key (OpenAI / Gemini)
-          </label>
-          <input
-            type="password"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            placeholder="sk-..."
-            className="w-full bg-slate-950/80 border border-white/15 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
-          />
+        {/* 6. Live AI Connection (Gemini / OpenAI) */}
+        <div className="bg-slate-900/70 border border-purple-500/30 p-4 rounded-2xl space-y-3">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold text-slate-100 flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4 text-purple-400" />
+              Live AI Companion (Gemini / OpenAI)
+            </label>
+            <span className="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full font-bold">
+              Optional
+            </span>
+          </div>
+          <p className="text-[11px] text-slate-400 leading-relaxed">
+            Connect Google Gemini or OpenAI to unlock intelligent live conversations with Hana! If left empty, Hana operates automatically in offline companion mode.
+          </p>
+
+          {/* Provider Selection */}
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { id: 'auto', label: 'Auto Detect' },
+              { id: 'gemini', label: 'Google Gemini' },
+              { id: 'openai', label: 'OpenAI' }
+            ].map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => setLlmProvider(p.id)}
+                className={`p-2 rounded-xl border text-[11px] font-bold transition-all text-center ${
+                  llmProvider === p.id
+                    ? 'bg-purple-600 text-white border-purple-400 shadow-md shadow-purple-950/40'
+                    : 'bg-slate-950/80 border-white/10 text-slate-400 hover:text-white'
+                }`}
+              >
+                {p.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Key Input Field */}
+          <div className="relative">
+            <input
+              type={showKey ? 'text' : 'password'}
+              value={apiKey}
+              onChange={(e) => {
+                setApiKey(e.target.value);
+                setTestStatus(null);
+              }}
+              placeholder="Paste Gemini (AIzaSy...) or OpenAI (sk-...) API key"
+              className="w-full bg-slate-950/90 border border-white/15 rounded-xl pl-3 pr-10 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+            />
+            <button
+              type="button"
+              onClick={() => setShowKey(!showKey)}
+              className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-200"
+              title={showKey ? 'Hide key' : 'Show key'}
+            >
+              {showKey ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            </button>
+          </div>
+
+          {/* Test Connection Button & Result */}
+          <div className="flex items-center justify-between pt-1">
+            <button
+              type="button"
+              onClick={handleTestConnection}
+              disabled={testStatus?.loading || !apiKey.trim()}
+              className="btn btn-secondary text-xs py-1.5 px-3 flex items-center gap-1.5 disabled:opacity-50"
+            >
+              {testStatus?.loading ? (
+                <>
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                  Testing...
+                </>
+              ) : (
+                <>
+                  <Sparkles className="w-3.5 h-3.5 text-purple-400" />
+                  Test Connection
+                </>
+              )}
+            </button>
+
+            {testStatus && (
+              <div className={`text-[11px] flex items-center gap-1 font-medium ${testStatus.ok ? 'text-emerald-400' : 'text-rose-400'}`}>
+                {testStatus.ok ? <CheckCircle2 className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5" />}
+                <span>{testStatus.message}</span>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="flex items-center justify-end gap-2 pt-2">

@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ISL_CURRICULUM } from '../data/islCurriculum';
+import { getSignImage } from '../data/signImages';
 import { HelpCircle, Award, CheckCircle2, XCircle, RotateCcw, Camera, Sparkles, Trophy } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { soundFx } from '../utils/soundEffects';
@@ -8,6 +9,13 @@ import CameraPractice from './CameraPractice';
 export default function QuizView({ onSelectSign, onQuizComplete }) {
   // Mode State: 'multiple-choice' | 'camera-challenge'
   const [quizMode, setQuizMode] = useState('multiple-choice');
+  const [, setCropTick] = useState(0);
+
+  useEffect(() => {
+    const handleCrops = () => setCropTick(t => t + 1);
+    window.addEventListener('isl-crops-updated', handleCrops);
+    return () => window.removeEventListener('isl-crops-updated', handleCrops);
+  }, []);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -142,18 +150,21 @@ export default function QuizView({ onSelectSign, onQuizComplete }) {
             /* Mode 1: Multiple Choice Question */
             <div>
               <div className="bg-slate-900/80 border border-white/10 p-5 rounded-2xl text-center mb-6 flex flex-col sm:flex-row items-center justify-around gap-4">
-                {currentItem.image && (
-                  <div className="relative w-36 h-36 sm:w-40 sm:h-40 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-xl bg-slate-950 p-2 shrink-0">
-                    <img
-                      src={currentItem.image}
-                      alt={`Target ISL Sign Gesture`}
-                      className="w-full h-full object-contain rounded-xl"
-                    />
-                    <span className="absolute bottom-1 right-1 bg-slate-950/90 text-[9px] font-mono text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30">
-                      Sign Image
-                    </span>
-                  </div>
-                )}
+                {(() => {
+                  const qImg = getSignImage(currentItem);
+                  return qImg ? (
+                    <div className="relative w-36 h-36 sm:w-40 sm:h-40 rounded-2xl overflow-hidden border-2 border-purple-500/40 shadow-xl bg-slate-950 p-2 shrink-0">
+                      <img
+                        src={qImg}
+                        alt={`Target ISL Sign Gesture`}
+                        className="w-full h-full object-contain rounded-xl"
+                      />
+                      <span className="absolute bottom-1 right-1 bg-slate-950/90 text-[9px] font-mono text-purple-300 px-1.5 py-0.5 rounded border border-purple-500/30">
+                        Sign Image
+                      </span>
+                    </div>
+                  ) : null;
+                })()}
                 <div className="text-center sm:text-left space-y-1">
                   <span className="text-xs font-semibold text-purple-400 tracking-wider uppercase">What sign is shown or described below:</span>
                   <h3 className="text-2xl font-black text-slate-100">"{currentItem.meaning}"</h3>
@@ -167,6 +178,7 @@ export default function QuizView({ onSelectSign, onQuizComplete }) {
                 {currentOptions.map((opt) => {
                   const isCorrect = opt.id === currentItem.id;
                   const isSelected = selectedOption?.id === opt.id;
+                  const optImg = getSignImage(opt);
 
                   let btnStyle = 'bg-slate-900/60 border-white/10 hover:bg-slate-800 text-slate-200';
                   if (isAnswered) {
@@ -185,9 +197,9 @@ export default function QuizView({ onSelectSign, onQuizComplete }) {
                       className={`p-4 rounded-xl border text-left font-bold text-sm transition-all flex items-center justify-between ${btnStyle}`}
                     >
                       <div className="flex items-center gap-3">
-                        {opt.image && (
+                        {optImg && (
                           <div className="w-9 h-9 rounded-lg overflow-hidden bg-slate-950 border border-white/10 p-0.5 shrink-0">
-                            <img src={opt.image} alt={opt.sign} className="w-full h-full object-contain" />
+                            <img src={optImg} alt={opt.sign} className="w-full h-full object-contain" />
                           </div>
                         )}
                         <span>Sign "{opt.sign}" — {opt.title}</span>
@@ -203,11 +215,14 @@ export default function QuizView({ onSelectSign, onQuizComplete }) {
             /* Mode 2: Camera Sign-Off Challenge */
             <div className="space-y-4 mb-6">
               <div className="bg-slate-900/80 border border-amber-500/30 p-4 rounded-2xl flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-                {currentItem.image && (
-                  <div className="w-28 h-28 rounded-xl overflow-hidden border border-amber-500/40 bg-slate-950 p-1.5 shrink-0 shadow-lg">
-                    <img src={currentItem.image} alt={currentItem.sign} className="w-full h-full object-contain rounded-lg" />
-                  </div>
-                )}
+                {(() => {
+                  const challengeImg = getSignImage(currentItem);
+                  return challengeImg ? (
+                    <div className="w-28 h-28 rounded-xl overflow-hidden border border-amber-500/40 bg-slate-950 p-1.5 shrink-0 shadow-lg">
+                      <img src={challengeImg} alt={currentItem.sign} className="w-full h-full object-contain rounded-lg" />
+                    </div>
+                  ) : null;
+                })()}
                 <div>
                   <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">Live Camera Challenge</span>
                   <h3 className="text-xl font-black text-slate-100 mt-0.5">Show the sign for "{currentItem.sign}" ({currentItem.title})</h3>
